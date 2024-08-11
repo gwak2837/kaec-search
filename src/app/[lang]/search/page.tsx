@@ -121,7 +121,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
       </div>
       <div className="grid md:grid-cols-[max-content_1fr] md:gap-6 md:px-6">
         {/* 768px 미만 */}
-        <aside className="mx-4 h-fit md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg">
+        <aside className="mx-4 h-fit md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
           <div className="flex justify-center flex-wrap gap-x-4 gap-y-2">
             {facetKeys.map((facetKey, i) => (
               <Link
@@ -174,7 +174,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           </div>
         </aside>
         {/* 768px 이상 */}
-        <aside className="h-fit hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-6 rounded-lg border-2 border-gray-200">
+        <aside className="h-fit hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-6 rounded-lg border-2 border-gray-200 dark:border-gray-800">
           <FilterResetButton lang={lang} query={query} facetIndex={facetIndex} />
           {facetsEntries.map(([facetKey, values]) => (
             <div key={facetKey} className="grid gap-4">

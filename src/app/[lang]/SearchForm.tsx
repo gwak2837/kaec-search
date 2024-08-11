@@ -2,10 +2,11 @@
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { FormEvent } from 'react'
+import { PageProps } from './page'
 
 export default function SearchForm() {
   const router = useRouter()
-  const params = useParams<{ lang: 'ko' | 'en' }>()
+  const params = useParams<PageProps['params']>()
   const searchParams = useSearchParams()
 
   const lang = params.lang

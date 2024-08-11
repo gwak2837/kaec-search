@@ -3,10 +3,11 @@ import SearchForm from './SearchForm'
 import courses from '@/common/card'
 import CourseCard from './CourseCard'
 import { Suspense } from 'react'
+import { Locale } from '@/middleware'
 
 export type PageProps = {
   params: {
-    lang: 'ko' | 'en'
+    lang: Locale
   }
   searchParams: { [key: string]: string | string[] | undefined }
 }
@@ -16,7 +17,7 @@ export default function HomePage({ params: { lang } }: PageProps) {
     <main className="min-h-screen">
       <div className="relative min-h-screen flex justify-center items-center">
         <div className="grid relative z-10 p-4 justify-center">
-          <h1 className="font-semibold p-4 text-xl sm:text-4xl lg:text-6xl">
+          <h1 className="font-semibold p-4 text-xl sm:text-4xl lg:text-6xl text-shadow-white-lg dark:text-shadow-black-lg">
             {dict['K-학술확산센터 강좌 검색창'][lang]}
           </h1>
           <Suspense>
@@ -28,6 +29,7 @@ export default function HomePage({ params: { lang } }: PageProps) {
           width="1792"
           height="1024"
           alt="background"
+          priority
           className="absolute inset-0 object-cover h-full w-full z-0"
         />
       </div>

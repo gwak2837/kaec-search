@@ -1,16 +1,17 @@
+// https://github.com/vercel/next.js/blob/canary/examples/app-dir-i18n-routing/middleware.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { match } from '@formatjs/intl-localematcher'
 import Negotiator from 'negotiator'
 
-const locales = ['ko', 'en']
-const defaultLocale = locales[0]
+export const locales = ['ko', 'en'] as const
+export const defaultLocale = locales[0]
+export type Locale = (typeof locales)[number]
 
-// Get the preferred locale, similar to the above or using a library
 function getLocale(request: NextRequest) {
-  const acceptLanguage = request.headers.get('accept-language')
-  const languages = new Negotiator({
-    headers: { 'accept-language': acceptLanguage ?? undefined },
-  }).languages()
+  const headers: Record<string, string> = {}
+  request.headers.forEach((value, key) => (headers[key] = value))
+
+  const languages = new Negotiator({ headers }).languages(locales as unknown as string[])
   return match(languages, locales, defaultLocale)
 }
 

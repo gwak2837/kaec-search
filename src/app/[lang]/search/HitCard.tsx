@@ -6,10 +6,11 @@ import { useState } from 'react'
 import { Course } from '@/common/card'
 import { Hit } from '@/types/algolia'
 import toast from 'react-hot-toast'
+import { Locale } from '@/middleware'
 
 type Props = {
   hit: Hit
-  lang: 'ko' | 'en'
+  lang: Locale
 }
 
 export default function HitCard({ hit, lang }: Props) {
@@ -46,7 +47,7 @@ export default function HitCard({ hit, lang }: Props) {
             {lang === 'en' ? hit.content_eng : hit.content}
           </p>
           <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
-            {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng.join(', ') : hit.tag.join(', ')}
+            {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
           </div>
           <div className="grid grid-cols-2 gap-2 md:gap-3">
             <a
@@ -85,6 +86,9 @@ export default function HitCard({ hit, lang }: Props) {
             </h2>
             <h4 className="">{lang === 'en' ? hit.week_eng : hit.week}</h4>
             <p className="">{lang === 'en' ? hit.content_eng : hit.content}</p>
+            <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
+              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
+            </div>
           </div>
         </div>
       </Modal>

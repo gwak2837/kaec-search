@@ -4,10 +4,11 @@ import Image from 'next/image'
 import Modal from '@/components/Modal'
 import { useState } from 'react'
 import { Course } from '@/common/card'
+import { Locale } from '@/middleware'
 
 type Props = {
   course: Course
-  lang: 'ko' | 'en'
+  lang: Locale
 }
 
 export default function CourseCard({ course, lang }: Props) {

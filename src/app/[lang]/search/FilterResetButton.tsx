@@ -1,8 +1,9 @@
+import { Locale } from '@/middleware'
 import Link from 'next/link'
 
 type Props = {
   facetIndex?: number
-  lang: 'ko' | 'en'
+  lang: Locale
   query: string
 }
 

@@ -14,7 +14,7 @@ export interface Hit {
   title_eng: string
   week: string
   subject: string
-  tag_eng: string[]
+  tag_eng: string[] | null
   content_eng: string
   title: string
   content: string
@@ -25,7 +25,7 @@ export interface Hit {
   week_eng: string
   id: string
   subject_eng: string
-  tag: string[]
+  tag: string[] | null
   path: string
   lastmodified: Lastmodified
   objectID: string

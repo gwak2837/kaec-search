@@ -1,10 +1,11 @@
 'use client'
 
+import { Locale } from '@/middleware'
 import Link from 'next/link'
 
 type Props = {
   pageCount: number
-  lang: 'ko' | 'en'
+  lang: Locale
   page: number
   query: string
   facetIndex?: number

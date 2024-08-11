@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 
-import { ReactNode } from 'react'
+import { ReactNode, Suspense } from 'react'
 import ReactHotToast from '@/components/ReactHotToast'
 
 import './globals.css'
+import LanguagueSelector from './LanguagueSelector'
+import { Locale } from '@/middleware'
 
 export const metadata: Metadata = {
   title: 'K-학술확산센터 강좌 검색',
@@ -23,7 +25,7 @@ export async function generateStaticParams() {
 
 type Props = Readonly<{
   children: ReactNode
-  params: { lang: string }
+  params: { lang: Locale }
 }>
 
 export default function RootLayout({ children, params }: Props) {
@@ -31,6 +33,9 @@ export default function RootLayout({ children, params }: Props) {
     <html lang={params.lang}>
       <body className={myFont.className}>
         {children}
+        <Suspense>
+          <LanguagueSelector />
+        </Suspense>
         <div id="modal-root" />
         <ReactHotToast />
       </body>

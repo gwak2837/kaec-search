@@ -110,6 +110,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           height="1024"
           alt="background"
           className="object-cover h-[25dvh] w-full"
+          priority
         />
       </div>
       <div className="grid grid-cols-[auto_1fr] gap-4 p-4 md:p-6 items-center sticky top-0 border-b-2 md:border-0 mb-4 md:m-0 border-gray-200 dark:border-gray-800 backdrop-blur md:backdrop-blur-none md:relative">

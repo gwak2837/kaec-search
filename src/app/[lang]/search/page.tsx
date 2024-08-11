@@ -163,7 +163,10 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                   href={`?${newSearchParams}`}
                 >
                   <span>{value}</span>
-                  <span>{count}개</span>
+                  <span className="whitespace-nowrap">
+                    {count}
+                    {dict.개[lang]}
+                  </span>
                 </Link>
               )
             })}
@@ -243,5 +246,9 @@ const dict = {
   처음으로: {
     ko: '처음으로',
     en: 'Home',
+  },
+  개: {
+    ko: '개',
+    en: ' items',
   },
 } as const

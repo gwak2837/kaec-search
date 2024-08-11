@@ -40,9 +40,8 @@ export default function SearchForm() {
           />
         </svg>
         <input
-          className="w-full p-3 md:p-4 px-12 md:px-12 sm:text-lg md:text-xl placeholder-gray-500 dark:bg-gray-900 bg-gray-100 border-2 border-gray-500 rounded-lg 
-            focus:outline-none focus:ring-4 focus:ring-gray-300 shadow-lg transition duration-300 ease-in-out transform hover:shadow-2xl 
-            focus:shadow-2xl focus:ring-opacity-50 placeholder-opacity-80"
+          className="w-full p-3 md:p-4 px-12 md:px-12 sm:text-lg md:text-xl placeholder-gray-500 dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 dark:border-gray-500 rounded-lg 
+            focus:outline-none focus:ring-4 focus:ring-gray-300 transition duration-300 ease-in-out transform focus:ring-opacity-50 placeholder-opacity-80"
           defaultValue={initialQuery}
           placeholder={dict['K-학술확산센터 강좌를'][lang]}
           required
@@ -50,7 +49,7 @@ export default function SearchForm() {
         />
         {/* TODO: defaultValue가 있어도 빈문자열로 초기화하기, X 디자인 */}
         <input
-          className="absolute z-10 top-1/2 -translate-y-1/2 right-5 cursor-pointer sm:text-lg md:text-xl text-gray-900 dark:text-gray-100"
+          className="absolute z-10 top-1/2 -translate-y-1/2 right-5 cursor-pointer sm:text-lg md:text-xl text-gray-500 dark:text-gray-100"
           type="reset"
           value="X"
           alt="Clear the search form"

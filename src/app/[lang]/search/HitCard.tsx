@@ -20,7 +20,7 @@ export default function HitCard({ hit, lang }: Props) {
     <>
       <li
         key={hit.id}
-        className="border transition-colors duration-300 rounded-2xl border-gray-500 overflow-hidden cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900"
+        className="border transition-colors duration-300 rounded-2xl border-gray-300 dark:border-gray-500 overflow-hidden cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900"
         onClick={() => setIsOpened(true)}
       >
         <Image
@@ -53,13 +53,13 @@ export default function HitCard({ hit, lang }: Props) {
             <a
               href={hit.kmooc}
               target="_blank"
-              className="border flex items-center rounded-lg border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              className="border flex items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
               <Image src="/images/kmoocLogo.png" alt="kmooc" width={269} height={49} />
             </a>
             <button
-              className="border rounded-lg border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              className="border rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
               onClick={(e) => {
                 e.stopPropagation()
                 toast.error('아직 준비 중입니다. 조금만 기다려주세요.')

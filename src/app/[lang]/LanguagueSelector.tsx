@@ -20,7 +20,7 @@ export default function LanguagueSelector() {
         href={`/ko${pathname.slice(3)}${querystring}`}
         aria-disabled={isKorean}
         aria-selected={isKorean}
-        className="px-2 py-1 md:px-4 md:py-2 rounded-lg bg-gray-600 aria-selected:bg-blue-900 hover:bg-blue-800 transition duration-300 ease-in-out"
+        className="px-2 py-1 md:px-4 md:py-2 text-white rounded-lg bg-gray-600 aria-selected:bg-blue-900 hover:bg-blue-800 transition duration-300 ease-in-out"
       >
         KOR
       </Link>
@@ -28,7 +28,7 @@ export default function LanguagueSelector() {
         href={`/en${pathname.slice(3)}${querystring}`}
         aria-disabled={isEnglish}
         aria-selected={isEnglish}
-        className="px-2 py-1 md:px-4 md:py-2 rounded-lg bg-gray-600 aria-selected:bg-blue-900 hover:bg-blue-800 transition duration-300 ease-in-out"
+        className="px-2 py-1 md:px-4 md:py-2 text-white rounded-lg bg-gray-600 aria-selected:bg-blue-900 hover:bg-blue-800 transition duration-300 ease-in-out"
       >
         ENG
       </Link>

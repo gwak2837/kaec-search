@@ -20,7 +20,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: var(--background-rgb);
+  background: rgb(var(--background-rgb));
 }
 
 button {

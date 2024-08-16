@@ -85,7 +85,7 @@ export default function HitCard({ hit, lang }: Props) {
               {lang === 'en' ? hit.title_eng : hit.title}
             </h2>
             <h4 className="">{lang === 'en' ? hit.week_eng : hit.week}</h4>
-            <p className="">{lang === 'en' ? hit.content_eng : hit.content}</p>
+            <p className="whitespace-pre-wrap">{lang === 'en' ? hit.content_eng : hit.content}</p>
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
               {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
             </div>

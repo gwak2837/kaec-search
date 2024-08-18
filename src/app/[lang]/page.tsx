@@ -25,7 +25,7 @@ export default function HomePage({ params: { lang } }: PageProps) {
           </Suspense>
         </div>
         <Image
-          src="/images/background2.webp"
+          src="/images/background03.jpg"
           width="1792"
           height="1024"
           alt="background"

@@ -40,8 +40,8 @@ export default function HitCard({ hit, lang, layout }: Props) {
           className={'object-cover ' + (isListLayout ? 'h-full' : 'aspect-video')}
         />
         {isListLayout ? (
-          <div className="p-2 grid min-w-0 gap-2">
-            <div className="whitespace-nowrap min-w-0">
+          <div className="p-2 grid min-w-0 gap-2 xl:gap-4">
+            <div className="whitespace-nowrap min-w-0 grid gap-1 xl:gap-2">
               <h2 className="text-ellipsis overflow-hidden font-semibold text-2xl">
                 {lang === 'en' ? hit.title_eng : hit.title}
               </h2>

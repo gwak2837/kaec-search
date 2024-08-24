@@ -18,8 +18,11 @@ export default function SearchForm() {
     const inputElement = formElement[0] as HTMLInputElement
     const query = inputElement.value
 
-    const searchParams = new URLSearchParams({ query })
-    router.push(`/${lang}/search?${searchParams}`)
+    const newSearchParams = new URLSearchParams(searchParams)
+    newSearchParams.delete('facetFilters')
+    newSearchParams.delete('query')
+    newSearchParams.set('query', query)
+    router.push(`/${lang}/search?${newSearchParams}`)
   }
 
   return (

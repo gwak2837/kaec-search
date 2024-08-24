@@ -34,11 +34,13 @@ export default function HomePage({ params: { lang } }: PageProps) {
         />
       </div>
       <h2 className="font-bold text-4xl mx-4 my-8 md:text-5xl">{dict.강좌소개[lang]}</h2>
+      <h3 className="font-bold text-2xl mx-4 my-8 md:text-4xl">
+        {dict['살아있는 전통으로서'][lang]}
+      </h3>
       <div className="m-4 text-lg md:text-xl">
-        <p>{dict['1. 살아있는 전통으로서'][lang]}</p>
-        <p>{dict['2. K-MOOC을 위한'][lang]}</p>
+        <p>{dict['1. K-MOOC을 위한'][lang]}</p>
+        <p>{dict['2. Coursera를 위한'][lang]}</p>
       </div>
-      <h3 className="font-bold text-2xl mx-4 my-8 md:text-4xl">{dict['Coursera를 위한'][lang]}</h3>
       <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] px-2">
         {courses.map((course) => (
           <CourseCard key={course.roman} course={course} lang={lang} />
@@ -57,16 +59,16 @@ const dict = {
     ko: '강좌소개',
     en: 'Course Introduction',
   },
-  '1. 살아있는 전통으로서': {
-    ko: '1. 살아있는 전통으로서 한국철학의 세계적 확산을 위한 온라인 강좌들',
-    en: '1. Online courses for the global spread of Korean philosophy as a living tradition',
+  '살아있는 전통으로서': {
+    ko: '살아있는 전통으로서 한국철학의 세계적 확산을 위한 온라인 강좌들',
+    en: 'Online courses for the global spread of Korean philosophy as a living tradition',
   },
-  '2. K-MOOC을 위한': {
-    ko: '2. K-MOOC을 위한 10대 주제, 50개 강좌',
-    en: '2. 10 major themes, 50 courses for K-MOOC',
+  '1. K-MOOC을 위한': {
+    ko: '1. K-MOOC을 위한 10대 주제, 50개 강좌',
+    en: '1. 10 major themes, 50 courses for K-MOOC',
   },
-  'Coursera를 위한': {
-    ko: 'Coursera를 위한 2개 과정, 9개 강좌',
-    en: '2 courses, 9 courses for Coursera',
+  '2. Coursera를 위한': {
+    ko: '2. Coursera를 위한 2개 과정, 9개 강좌',
+    en: '2. 2 courses, 9 courses for Coursera',
   },
 } as const

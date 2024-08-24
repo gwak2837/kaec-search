@@ -10,6 +10,7 @@ import { ALGOLIA_FACETS } from '@/common/constants'
 import FilterResetButton from './FilterResetButton'
 import PaginationButtons from './PaginationButtons'
 import HitCard from './HitCard'
+import ResultLayoutButtons, { layouts } from './ResultLayoutButtons'
 
 type Params = {
   facetFilters?: string
@@ -71,6 +72,8 @@ async function fetchSearchResults({ query, page, facetFilters }: Params) {
 
 export default async function SearchPage({ params, searchParams }: PageProps) {
   const query = searchParams.query as string
+  const layout = searchParams.layout as 'grid' | 'list'
+  const isListLayout = layout === 'list'
 
   if (!query) {
     return notFound()
@@ -139,7 +142,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
             ))}
           </div>
           <div className="mt-6 grid gap-4">
-            <FilterResetButton lang={lang} query={query} facetIndex={facetIndex} />
+            <FilterResetButton lang={lang} searchParams={searchParams} />
             {/* TODO: 5개 이상이면 아코디언 만들기 */}
             {selectedFacetEntries.map(([value, count]) => {
               const toggledFacetFilters = toggleFacetFilters(
@@ -158,7 +161,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                 <Link
                   key={value}
                   aria-selected={facetFilters?.includes(`${selectedFacetKey}:${value}`)}
-                  className="items-center p-3 md:p-4 dark:bg-opacity-10 rounded-lg dark:hover:bg-opacity-20 bg-white
+                  className="items-center border dark:border-none p-3 md:p-4 dark:bg-opacity-10 rounded-lg dark:hover:bg-opacity-20 bg-white
                     transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
                     aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
                   href={`?${newSearchParams}`}
@@ -175,9 +178,9 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
         </aside>
         {/* 768px 이상 */}
         <aside className="h-fit hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-6 rounded-lg border-2 border-gray-200 dark:border-gray-800">
-          <FilterResetButton lang={lang} query={query} facetIndex={facetIndex} />
+          <FilterResetButton lang={lang} searchParams={searchParams} />
           {facetsEntries.map(([facetKey, values]) => (
-            <div key={facetKey} className="grid gap-4">
+            <div key={facetKey} className="grid w-full gap-4">
               <span className="min-w-24 mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
                 {facetKey}
               </span>
@@ -188,20 +191,20 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                   value,
                 )
                 const newSearchParams = new URLSearchParams({
-                  query,
-                  ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                  ...searchParams,
+                  facetFilters: toggledFacetFilters,
                 })
                 return (
                   <Link
                     key={value}
                     aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
                     className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
-                      dark:hover:bg-opacity-20 transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
+                      dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
                       aria-selected:bg-blue-600"
                     href={`?${newSearchParams}`}
                   >
-                    <span>{value}</span>
-                    <span>{count}개</span>
+                    <span className="max-w-60 lg:max-w-80 xl:max-w-96">{value}</span>
+                    <span className="whitespace-nowrap">{count}개</span>
                   </Link>
                 )
               })}
@@ -209,13 +212,17 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           ))}
         </aside>
         <main>
-          <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
+          <div className="flex justify-end items-center gap-4">
+            <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
+            <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
+          </div>
           <ul
             className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4
               grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
+            style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
             {hits.map((hit) => (
-              <HitCard key={hit.id} hit={hit} lang={lang} />
+              <HitCard key={hit.id} hit={hit} lang={lang} layout={layout} />
             ))}
           </ul>
         </main>

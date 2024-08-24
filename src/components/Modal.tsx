@@ -124,21 +124,21 @@ export default function Modal({
 
   return createPortal(
     <div className={modalBackground} onClick={closeModal}>
-      {showCloseButton && (
-        <Image
-          alt="x"
-          className="absolute right-0 top-0 z-10 cursor-pointer p-3"
-          height="48"
-          src="/images/x.svg"
-          width="48"
-          onClick={closeModal}
-        />
-      )}
       <div
         ref={showDragButton ? modalRef : null}
         className={`absolute transition duration-300 ${open ? 'scale-100' : 'scale-90'} ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
+        {showCloseButton && (
+          <Image
+            alt="x"
+            className="absolute right-0 top-0 z-20 cursor-pointer p-3"
+            height="48"
+            src="/images/x.svg"
+            width="48"
+            onClick={closeModal}
+          />
+        )}
         {showDragButton && (
           <div
             className="absolute left-0 right-0 top-0 z-10 flex h-4 cursor-move justify-center p-2 pb-6"

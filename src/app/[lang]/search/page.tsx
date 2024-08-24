@@ -212,7 +212,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           ))}
         </aside>
         <main>
-          <div className="flex justify-end items-center gap-4">
+          <div className="flex justify-end items-center gap-4 px-4 md:px-0">
             <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>

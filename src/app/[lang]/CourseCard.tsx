@@ -33,7 +33,9 @@ export default function CourseCard({ course, lang }: Props) {
       </li>
       <Modal showCloseButton showDragButton open={isOpened} onClose={() => setIsOpened(false)}>
         <div className="grid gap-2 rounded-lg bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pb-4 pt-5 shadow-xl overflow-hidden ">
-          <h4 className="text-xl md:text-2xl p-4 font-semibold">{course.title[lang]}</h4>
+          <h4 className="text-xl md:text-2xl p-4 font-semibold">
+            {course.roman}. {course.title[lang]}
+          </h4>
           <hr className="dark:border-gray-700" />
           <ul className="p-4">
             {course.content[lang].map((content, index) => (

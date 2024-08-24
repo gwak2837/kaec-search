@@ -16,6 +16,8 @@ type Props = {
 
 export default function HitCard({ hit, lang, layout }: Props) {
   const [isOpened, setIsOpened] = useState(false)
+  const [isRelationModalOpened, setIsRelationModalOpen] = useState(false)
+
   const isListLayout = !layout || layout === 'list'
 
   return (
@@ -66,7 +68,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
                 className="border rounded-xl border-gray-300 dark:border-gray-500 p-2 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation()
-                  toast.error('아직 준비 중입니다. 조금만 기다려주세요.')
+                  setIsRelationModalOpen(true)
                 }}
               >
                 {dict.연관강의[lang]}
@@ -103,7 +105,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
                 className="border rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation()
-                  toast.error('아직 준비 중입니다. 조금만 기다려주세요.')
+                  setIsRelationModalOpen(true)
                 }}
               >
                 {dict.연관강의[lang]}
@@ -133,32 +135,31 @@ export default function HitCard({ hit, lang, layout }: Props) {
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
               {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
             </div>
-            <div className="grid grid-cols-2 gap-2 md:gap-3">
-              <a
-                href={hit.kmooc}
-                target="_blank"
-                className="border justify-center flex items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Image
-                  src="/images/kmoocLogo.png"
-                  alt="kmooc"
-                  width={269}
-                  height={49}
-                  className="max-w-24"
-                />
-              </a>
-              <button
-                className="border rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  toast.error('아직 준비 중입니다. 조금만 기다려주세요.')
-                }}
-              >
-                {dict.연관강의[lang]}
-              </button>
-            </div>
+            <a
+              href={hit.kmooc}
+              target="_blank"
+              className="border justify-center flex items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src="/images/kmoocLogo.png"
+                alt="kmooc"
+                width={269}
+                height={49}
+                className="max-w-24"
+              />
+            </a>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        showCloseButton
+        showDragButton
+        open={isRelationModalOpened}
+        onClose={() => setIsRelationModalOpen(false)}
+      >
+        <div className="grid gap-2 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl overflow-hidden">
+          <div className="p-4">준비중입니다</div>
         </div>
       </Modal>
     </>

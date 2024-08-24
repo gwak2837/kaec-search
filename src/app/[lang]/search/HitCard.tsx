@@ -16,7 +16,7 @@ type Props = {
 
 export default function HitCard({ hit, lang, layout }: Props) {
   const [isOpened, setIsOpened] = useState(false)
-  const isListLayout = layout === 'list'
+  const isListLayout = !layout || layout === 'list'
 
   return (
     <>

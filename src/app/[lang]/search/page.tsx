@@ -73,7 +73,7 @@ async function fetchSearchResults({ query, page, facetFilters }: Params) {
 export default async function SearchPage({ params, searchParams }: PageProps) {
   const query = searchParams.query as string
   const layout = searchParams.layout as 'grid' | 'list'
-  const isListLayout = layout === 'list'
+  const isListLayout = !layout || layout === 'list'
 
   if (!query) {
     return notFound()

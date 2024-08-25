@@ -1,16 +1,13 @@
-import Image from 'next/image'
-import { PageProps } from '../page'
-import SearchForm from '../SearchForm'
-import Link from 'next/link'
-import { Suspense } from 'react'
-import { AlgoriaResult } from '@/types/algolia'
-import { notFound } from 'next/navigation'
-import { parseFacetFilters, toggleFacetFilters } from '@/utils/algolia'
 import { ALGOLIA_FACETS } from '@/common/constants'
+import { AlgoriaResult } from '@/types/algolia'
+import { PageProps } from '../page'
+import { toggleFacetFilters, parseFacetFilters } from '@/utils/algolia'
+import Link from 'next/link'
 import FilterResetButton from './FilterResetButton'
-import PaginationButtons from './PaginationButtons'
 import HitCard from './HitCard'
-import ResultLayoutButtons, { layouts } from './ResultLayoutButtons'
+import ResultLayoutButtons from './ResultLayoutButtons'
+import PaginationButtons from './PaginationButtons'
+import { notFound } from 'next/navigation'
 
 type Params = {
   facetFilters?: string
@@ -70,27 +67,25 @@ async function fetchSearchResults({ query, page, facetFilters }: Params) {
   return (await response.json()) as AlgoriaResult
 }
 
-export default async function SearchPage({ params, searchParams }: PageProps) {
+export default async function SearchResult({ params, searchParams }: PageProps) {
   const query = searchParams.query as string
-  const layout = searchParams.layout as 'grid' | 'list'
-  const isListLayout = !layout || layout === 'list'
 
   if (!query) {
     return notFound()
   }
 
-  const lang = params.lang
-  const page = +((searchParams.page as string) ?? 1)
   const facetFilters = searchParams.facetFilters as string
-  const facetIndex = +((searchParams.facetIndex as string) ?? 0)
-  const searchResults = await fetchSearchResults({ query, facetFilters, page })
+  const page = +((searchParams.page as string) ?? 1)
 
-  const originalSearchResult = searchResults.results[0]
-  const facets = originalSearchResult.facets
+  const searchResults = await fetchSearchResults({ query, facetFilters, page })
 
   const searchResult = searchResults.results[searchResults.results.length - 1]
   const hits = searchResult.hits
+
+  const originalSearchResult = searchResults.results[0]
+  const facets = originalSearchResult.facets
   const facetKeys = Object.keys(facets)
+  const facetIndex = +((searchParams.facetIndex as string) ?? 0)
   const selectedFacetKey = facetKeys[facetIndex]
   const selectedFacetEntries = Object.entries<number>(Object.values(facets)[facetIndex] ?? {})
   const facetsEntries = Object.entries(facets)
@@ -98,30 +93,12 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
   const pageCount = searchResult.nbPages
   const totalHits = searchResult.nbHits
 
+  const lang = params.lang
+  const layout = searchParams.layout as 'grid' | 'list'
+  const isListLayout = !layout || layout === 'list'
+
   return (
-    <div>
-      <div className="relative">
-        <h1
-          className="absolute w-full text-center text-shadow-white-lg dark:text-shadow-black-lg tracking-wide bottom-4 font-semibold p-4 
-            text-2xl sm:text-5xl md:text-6xl"
-        >
-          {dict['K-학술확산센터 강좌 검색창'][lang]}
-        </h1>
-        <Image
-          src="/images/searchpage_testbg.webp"
-          width="1792"
-          height="1024"
-          alt="background"
-          className="object-cover h-[25dvh] w-full"
-          priority
-        />
-      </div>
-      <div className="grid grid-cols-[auto_1fr] gap-4 p-4 md:p-6 items-center sticky top-0 border-b-2 md:border-0 mb-4 md:m-0 border-gray-200 dark:border-gray-800 backdrop-blur md:backdrop-blur-none md:relative">
-        <Link href={`/${lang}`}>{dict.처음으로[lang]}</Link>
-        <Suspense>
-          <SearchForm />
-        </Suspense>
-      </div>
+    <>
       <div className="grid md:grid-cols-[max-content_1fr] md:gap-6 md:px-6">
         {/* 768px 미만 */}
         <aside className="mx-4 h-fit md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
@@ -131,7 +108,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                 key={facetKey}
                 aria-selected={facetIndex === i}
                 className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white
-                  px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition duration-300 ease-in-out"
+            px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition duration-300 ease-in-out"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -162,8 +139,8 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                   key={value}
                   aria-selected={facetFilters?.includes(`${selectedFacetKey}:${value}`)}
                   className="items-center border dark:border-none p-3 md:p-4 dark:bg-opacity-10 rounded-lg dark:hover:bg-opacity-20 bg-white
-                    transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
-                    aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
+              transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
+              aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
                   href={`?${newSearchParams}`}
                 >
                   <span>{value}</span>
@@ -199,11 +176,13 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                     key={value}
                     aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
                     className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
-                      dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
-                      aria-selected:bg-blue-600"
+                dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
+                aria-selected:bg-blue-600"
                     href={`?${newSearchParams}`}
                   >
-                    <span className="max-w-60 lg:max-w-80 xl:max-w-96">{value}</span>
+                    <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
+                      {value}
+                    </span>
                     <span className="whitespace-nowrap">{count}개</span>
                   </Link>
                 )
@@ -218,7 +197,7 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           </div>
           <ul
             className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4
-              grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
+        grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
             style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
             {hits.map((hit) => (
@@ -242,19 +221,11 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
           </nav>
         </>
       )}
-    </div>
+    </>
   )
 }
 
 const dict = {
-  'K-학술확산센터 강좌 검색창': {
-    ko: 'K-학술확산센터 강좌 검색창',
-    en: 'KAEP Lecture Search Bar',
-  },
-  처음으로: {
-    ko: '처음으로',
-    en: 'Home',
-  },
   개: {
     ko: '개',
     en: ' items',

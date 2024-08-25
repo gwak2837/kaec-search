@@ -3,10 +3,9 @@
 import Image from 'next/image'
 import Modal from '@/components/Modal'
 import { useState } from 'react'
-import { Course } from '@/common/card'
 import { Hit } from '@/types/algolia'
-import toast from 'react-hot-toast'
 import { Locale } from '@/middleware'
+import RelatedCoursesButton from './RelatedCoursesButton'
 
 type Props = {
   hit: Hit
@@ -16,7 +15,6 @@ type Props = {
 
 export default function HitCard({ hit, lang, layout }: Props) {
   const [isOpened, setIsOpened] = useState(false)
-  const [isRelationModalOpened, setIsRelationModalOpen] = useState(false)
 
   const isListLayout = !layout || layout === 'list'
 
@@ -64,15 +62,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
                   className="w-full max-w-28"
                 />
               </a>
-              <button
-                className="border rounded-xl border-gray-300 dark:border-gray-500 p-2 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setIsRelationModalOpen(true)
-                }}
-              >
-                {dict.연관강의[lang]}
-              </button>
+              <RelatedCoursesButton lang={lang} />
             </div>
           </div>
         ) : (
@@ -101,15 +91,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
               >
                 <Image src="/images/kmoocLogo.png" alt="kmooc" width={269} height={49} />
               </a>
-              <button
-                className="border rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setIsRelationModalOpen(true)
-                }}
-              >
-                {dict.연관강의[lang]}
-              </button>
+              <RelatedCoursesButton lang={lang} />
             </div>
           </div>
         )}
@@ -125,10 +107,10 @@ export default function HitCard({ hit, lang, layout }: Props) {
           />
           <div className="m-3 max-w-prose md:m-4 grid gap-2 md:gap-4">
             <h3 className="text-lg md:text-xl">
-              대주제: {lang === 'en' ? hit.subject_eng : hit.subject}
+              {dict.대주제[lang]}: {lang === 'en' ? hit.subject_eng : hit.subject}
             </h3>
             <h2 className="font-bold text-2xl md:text-3xl">
-              강좌제목: {lang === 'en' ? hit.title_eng : hit.title}
+              {dict.강좌제목[lang]}: {lang === 'en' ? hit.title_eng : hit.title}
             </h2>
             <h4 className="">{lang === 'en' ? hit.week_eng : hit.week}</h4>
             <p className="whitespace-pre-wrap">{lang === 'en' ? hit.content_eng : hit.content}</p>
@@ -152,27 +134,21 @@ export default function HitCard({ hit, lang, layout }: Props) {
           </div>
         </div>
       </Modal>
-      <Modal
-        showCloseButton
-        showDragButton
-        open={isRelationModalOpened}
-        onClose={() => setIsRelationModalOpen(false)}
-      >
-        <div className="grid gap-2 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl overflow-hidden">
-          <div className="p-4">준비중입니다</div>
-        </div>
-      </Modal>
     </>
   )
 }
 
 const dict = {
-  연관강의: {
-    ko: '연관 강의',
-    en: 'Related Courses',
-  },
   태그: {
     ko: '태그',
     en: 'Tags',
+  },
+  대주제: {
+    ko: '대주제',
+    en: 'Subject',
+  },
+  강좌제목: {
+    ko: '강좌제목',
+    en: 'Title',
   },
 } as const

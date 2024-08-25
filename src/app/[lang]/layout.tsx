@@ -7,6 +7,7 @@ import ReactHotToast from '@/components/ReactHotToast'
 import './globals.css'
 import LanguagueSelector from './LanguagueSelector'
 import { Locale } from '@/middleware'
+import ReactQueryProvider from '@/components/ReactQueryProvider'
 
 export const metadata: Metadata = {
   title: 'K-학술확산센터 강좌 검색',
@@ -23,16 +24,16 @@ export async function generateStaticParams() {
   return [{ lang: 'ko' }, { lang: 'en' }]
 }
 
-type Props = Readonly<{
+export type LayoutProps = Readonly<{
   children: ReactNode
   params: { lang: Locale }
 }>
 
-export default function RootLayout({ children, params }: Props) {
+export default function RootLayout({ children, params }: LayoutProps) {
   return (
     <html lang={params.lang}>
       <body className={myFont.className}>
-        {children}
+        <ReactQueryProvider>{children}</ReactQueryProvider>
         <Suspense>
           <LanguagueSelector />
         </Suspense>

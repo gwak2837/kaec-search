@@ -1,4 +1,4 @@
-import { ALGOLIA_FACETS } from '@/common/constants'
+import { ALGOLIA_FACETS, ALGOLIA_DOMAIN } from '@/common/constants'
 import { AlgoriaResult } from '@/types/algolia'
 import { PageProps } from '../page'
 import { toggleFacetFilters, parseFacetFilters } from '@/utils/algolia'
@@ -51,14 +51,11 @@ async function fetchSearchResults({ query, page, facetFilters }: Params) {
     })
   }
 
-  const response = await fetch(
-    `https://p30fbl1198-dsn.algolia.net/1/indexes/*/queries?${searchParams}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: JSON.stringify({ requests }),
-    },
-  )
+  const response = await fetch(`${ALGOLIA_DOMAIN}/1/indexes/*/queries?${searchParams}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: JSON.stringify({ requests }),
+  })
 
   if (!response.ok) {
     throw new Error('Failed to fetch search results')
@@ -107,8 +104,9 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               <Link
                 key={facetKey}
                 aria-selected={facetIndex === i}
-                className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white
-            px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition duration-300 ease-in-out"
+                className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600
+                 aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
+                 duration-300 ease-in-out"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -176,8 +174,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                     key={value}
                     aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
                     className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
-                dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
-                aria-selected:bg-blue-600"
+                      dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
+                    aria-selected:bg-blue-600"
                     href={`?${newSearchParams}`}
                   >
                     <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
@@ -196,12 +194,12 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>
           <ul
-            className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4
-        grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
+            className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
+              md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
             style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
             {hits.map((hit) => (
-              <HitCard key={hit.id} hit={hit} lang={lang} layout={layout} />
+              <HitCard key={hit.id} hit={hit} layout={layout} />
             ))}
           </ul>
         </main>

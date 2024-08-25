@@ -34,6 +34,8 @@ export default function RelatedCoursesButton({ course }: Props) {
       .filter((relatedCourse) => relatedCourse.objectID !== course.objectID),
     ['objectID'],
   )
+    ?.sort()
+    .slice(0, 10)
 
   return (
     <>
@@ -53,14 +55,14 @@ export default function RelatedCoursesButton({ course }: Props) {
         open={isRelationModalOpened}
         onClose={() => setIsRelationModalOpen(false)}
       >
-        <div className="grid gap-2 md:gap-6 p-4 md:p-8 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-8 shadow-xl overflow-hidden">
+        <div className="grid gap-2 md:gap-6 p-4 md:p-8 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-8 shadow-xl max-h-svh overflow-auto">
           <h2 className="font-bold text-2xl md:text-3xl">
             {dict.강좌제목[lang]}: {isKorean ? course.title : course.title_eng}
           </h2>
-          {isLoading && (
-            <div className="animate-pulse rounded-full h-10 bg-gray-300 dark:bg-gray-700" />
-          )}
           <ul className="list-disc min-w-0 ml-4 grid gap-2 md:text-lg max-w-prose">
+            {isLoading && (
+              <div className="animate-pulse rounded-full h-7 bg-gray-300 dark:bg-gray-700" />
+            )}
             {relatedCourses?.map((relatedCourse) => {
               const courseWeek = isKorean ? relatedCourse.week : relatedCourse.week_eng
               const newSearchParams = new URLSearchParams({
@@ -79,6 +81,9 @@ export default function RelatedCoursesButton({ course }: Props) {
                 </li>
               )
             })}
+            {!isLoading && relatedCourses?.length === 0 && (
+              <div className="text-center text-gray-500">{dict.연관강의가[lang]}</div>
+            )}
           </ul>
         </div>
       </Modal>
@@ -94,5 +99,9 @@ const dict = {
   강좌제목: {
     ko: '강좌제목',
     en: 'Title',
+  },
+  연관강의가: {
+    ko: '연관 강의가 없습니다.',
+    en: 'No related courses.',
   },
 } as const

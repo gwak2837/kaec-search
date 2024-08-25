@@ -100,7 +100,7 @@ export default function HitCard({ hit, layout }: Props) {
         )}
       </li>
       <Modal showCloseButton showDragButton open={isOpened} onClose={() => setIsOpened(false)}>
-        <div className="grid gap-2 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl overflow-hidden">
+        <div className="grid gap-2 max-h-svh overflow-auto rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl">
           <Image
             src="https://lms.kmooc.kr/pluginfile.php/2718931/course/overviewfiles_thumbnail/courseoverviews_thumbnail.png"
             alt="courseoverviews_thumbnail"

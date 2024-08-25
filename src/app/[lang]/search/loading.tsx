@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function Loading() {
   return (
-    <div className="grid pointer-events-none animate-pulse md:grid-cols-[max-content_1fr] md:gap-6 md:px-6">
+    <div className="grid animate-pulse md:grid-cols-[max-content_1fr] md:gap-6 md:px-6">
       {/*  Sidebar (Mobile)  */}
       <aside className="mx-4 h-fit md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
         <div className="flex justify-center flex-wrap gap-x-4 gap-y-2">
@@ -36,10 +36,10 @@ export default function Loading() {
             ...
           </span>
           <a className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg  dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold  aria-selected:bg-blue-600">
-            <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
-              Filter Name{' '}
+            <span className="max-w-60  min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
+              ...
             </span>
-            <span className="whitespace-nowrap">Filter Count</span>
+            <span className="whitespace-nowrap">... 개</span>
           </a>
         </div>
       </aside>
@@ -58,8 +58,6 @@ export default function Loading() {
             </a>
           </div>
         </div>
-
-        {/*  Course List  */}
         <ul className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4">
           {Array(3)
             .fill(0)

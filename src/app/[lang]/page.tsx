@@ -17,7 +17,7 @@ export default function HomePage({ params: { lang } }: PageProps) {
     <main className="min-h-screen">
       <div className="relative min-h-svh flex justify-center items-center">
         <div className="grid relative z-10 p-4 justify-center">
-          <h1 className="font-semibold p-4 text-xl sm:text-4xl lg:text-6xl text-shadow-white-lg dark:text-shadow-black-lg">
+          <h1 className="font-semibold text-center p-4 text-xl sm:text-4xl lg:text-6xl text-shadow-white-lg dark:text-shadow-black-lg">
             {dict['K-학술확산센터 강좌 검색창'][lang]}
           </h1>
           <Suspense>

@@ -22,7 +22,7 @@ export default async function SearchLayout({ params, children }: LayoutProps) {
           width="1792"
           height="1024"
           alt="background"
-          className="object-cover h-[25dvh] w-full"
+          className="object-cover h-[25svh] w-full"
           priority
         />
       </div>

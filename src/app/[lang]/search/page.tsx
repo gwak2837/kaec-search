@@ -1,4 +1,4 @@
-import { ALGOLIA_FACETS, ALGOLIA_DOMAIN } from '@/common/constants'
+import { ALGOLIA_FACETS } from '@/common/constants'
 import { AlgoriaResult } from '@/types/algolia'
 import { PageProps } from '../page'
 import { toggleFacetFilters, parseFacetFilters } from '@/utils/algolia'
@@ -8,6 +8,7 @@ import HitCard from './HitCard'
 import ResultLayoutButtons from './ResultLayoutButtons'
 import PaginationButtons from './PaginationButtons'
 import { notFound } from 'next/navigation'
+import { algoliaClient } from '@/common/algoria'
 
 type Params = {
   facetFilters?: string
@@ -16,52 +17,25 @@ type Params = {
 }
 
 async function fetchSearchResults({ query, page, facetFilters }: Params) {
-  const searchParams = new URLSearchParams({
-    'x-algolia-api-key': 'a17cd62340ac1e08ec65c4b162e78036',
-    'x-algolia-application-id': 'P30FBL1198',
-  })
-
-  const baseParams = {
-    facets: JSON.stringify(ALGOLIA_FACETS),
-    highlightPostTag: '__%2Fais-highlight__',
-    highlightPreTag: '__ais-highlight__',
-    maxValuesPerFacet: '10',
-    query,
+  const base = {
+    indexName: 'lecturedata',
+    query: query,
+    facets: ALGOLIA_FACETS,
+    maxValuesPerFacet: 10,
   }
 
-  // 첫번째 요청: 전체 facet 리스트 가져오기
-  const requests = [
-    {
-      indexName: 'lecturedata',
-      params: new URLSearchParams(baseParams).toString(),
-    },
-  ]
-
-  // 두번째 요청: 필터가 젹용된 검색 결과 가져오기
-  if (facetFilters || page !== 1) {
-    requests.push({
-      indexName: 'lecturedata',
-      params: new URLSearchParams({
-        ...baseParams,
+  return (await algoliaClient.search({
+    requests: [
+      // 첫번째 요청: 전체 facet 리스트 가져오기
+      { ...base },
+      // 두번째 요청: 필터가 젹용된 검색 결과 가져오기
+      {
+        ...base,
         ...(facetFilters && { facetFilters }),
-        ...(page !== 1 && { page: String(page - 1) }),
-      })
-        .toString()
-        .replace(/\+/g, '%20'),
-    })
-  }
-
-  const response = await fetch(`${ALGOLIA_DOMAIN}/1/indexes/*/queries?${searchParams}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: JSON.stringify({ requests }),
-  })
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch search results')
-  }
-
-  return (await response.json()) as AlgoriaResult
+        ...(page !== 1 && { page: page - 1 }),
+      },
+    ],
+  })) as unknown as AlgoriaResult
 }
 
 export default async function SearchResult({ params, searchParams }: PageProps) {
@@ -181,7 +155,10 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                     <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
                       {value}
                     </span>
-                    <span className="whitespace-nowrap">{count}개</span>
+                    <span className="whitespace-nowrap">
+                      {count}
+                      {dict.개[lang]}
+                    </span>
                   </Link>
                 )
               })}

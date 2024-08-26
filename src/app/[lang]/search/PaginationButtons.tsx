@@ -2,24 +2,23 @@
 
 import { Locale } from '@/middleware'
 import Link from 'next/link'
+import { useParams, useSearchParams } from 'next/navigation'
+import { PageProps } from '../page'
 
 type Props = {
   pageCount: number
-  lang: Locale
-  page: number
-  query: string
-  facetIndex?: number
-  facetFilters?: string
 }
 
-export default function PaginationButtons({
-  pageCount,
-  lang,
-  page,
-  query,
-  facetFilters,
-  facetIndex,
-}: Props) {
+export default function PaginationButtons({ pageCount }: Props) {
+  const { lang } = useParams<PageProps['params']>()
+
+  const searchParams = useSearchParams()
+  const facetIndex = searchParams.get('facetIndex')
+  const facetFilters = searchParams.get('facetFilters')
+  const page = +(searchParams.get('page') ?? 1)
+  const query = searchParams.get('query') ?? ''
+  const layout = searchParams.get('layout')
+
   const prevPage = Math.max(1, page - 1)
   const nextPage = Math.min(page + 1, pageCount)
 
@@ -33,6 +32,7 @@ export default function PaginationButtons({
           query,
           ...(facetIndex && { facetIndex: String(facetIndex) }),
           ...(facetFilters && { facetFilters }),
+          ...(layout && { layout }),
           ...(prevPage !== 1 && { page: String(prevPage) }),
         })}`}
         aria-disabled={page <= 1}
@@ -55,6 +55,7 @@ export default function PaginationButtons({
               query,
               ...(facetIndex && { facetIndex: String(facetIndex) }),
               ...(facetFilters && { facetFilters }),
+              ...(layout && { layout }),
               ...(i && { page: String(i + 1) }),
             })}`}
           >
@@ -66,6 +67,7 @@ export default function PaginationButtons({
           query,
           ...(facetIndex && { facetIndex: String(facetIndex) }),
           ...(facetFilters && { facetFilters }),
+          ...(layout && { layout }),
           ...(nextPage !== 1 && { page: String(nextPage) }),
         })}`}
         aria-disabled={page >= pageCount}

@@ -102,9 +102,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               const newSearchParams = new URLSearchParams({
                 query,
                 ...(facetIndex && { facetIndex: String(facetIndex) }),
-                ...(toggledFacetFilters && {
-                  facetFilters: toggledFacetFilters,
-                }),
+                ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                ...(layout === 'grid' && { layout }),
               })
               return (
                 <Link
@@ -140,8 +139,9 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   value,
                 )
                 const newSearchParams = new URLSearchParams({
-                  ...searchParams,
-                  facetFilters: toggledFacetFilters,
+                  query,
+                  ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                  ...(layout === 'grid' && { layout }),
                 })
                 return (
                   <Link
@@ -185,14 +185,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
         <>
           <div className="h-40 md:hidden" />
           <nav className="fixed w-full bottom-0 md:relative backdrop-blur p-3	md:backdrop-blur-none border-t-2 md:border-none border-gray-200 dark:border-gray-800">
-            <PaginationButtons
-              pageCount={pageCount}
-              page={page}
-              lang={lang}
-              query={query}
-              facetFilters={facetFilters}
-              facetIndex={facetIndex}
-            />
+            <PaginationButtons pageCount={pageCount} />
           </nav>
         </>
       )}

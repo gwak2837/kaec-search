@@ -8,14 +8,13 @@ const courses = [
     content: {
       ko: [
         "한국적 특수성을 가지면서 동시에 보편철학으로 기능할 수 있는 '한국철학'의 가능성을 탐구",
-        '한국철학 교육과 연구의 기초',
       ],
       en: [
         "Exploring the possibility of 'Korean philosophy' that can function as universal philosophy while having Korean specificity",
         'Foundation of Korean philosophy education and research',
       ],
     },
-    img: '/images/main_card/card01.webp',
+    img: '/images/main_card/card1.jpg',
   },
   {
     roman: 'K02',
@@ -29,7 +28,7 @@ const courses = [
         'Discover, analyze, and organize the literary materials of Korean philosophy history, and ultimately aim to publish the Korean Philosophy Sourcebook',
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card2.jpg',
   },
   {
     roman: 'K03',
@@ -38,14 +37,12 @@ const courses = [
       en: 'Philosophers of Korea',
     },
     content: {
-      ko: [
-        '대표적 철학자 뿐 아니라 그동안 관심을 받지 못했던 철학자들을 발굴하여 한국철학자 사전 완성을 목표',
-      ],
+      ko: ['한국 철학자들의 생애와 사상을 소개'],
       en: [
         'In addition to representative philosophers, aim to complete a dictionary of Korean philosophers by discovering philosophers who have not received attention so far',
       ],
     },
-    img: '/images/main_card/card01.webp',
+    img: '/images/main_card/card3.jpg',
   },
   {
     roman: 'K04',
@@ -54,16 +51,13 @@ const courses = [
       en: 'Debate in Korean Philosophy',
     },
     content: {
-      ko: [
-        "한국철학사에 나타난 `철학적 논쟁'을 통해 한국의 철학 체계가 성립하는 과정을 학습",
-        '한국철학 국내 연구 성과의 소개',
-      ],
+      ko: ["한국철학사에 나타난 `철학적 논쟁'을 통해 한국의 철학 체계가 성립하는 과정을 학습"],
       en: [
         'Learn about the process of establishing the philosophical system of Korea through the `philosophical debate` that appeared in the history of Korean philosophy',
         'Introduction of domestic research results on Korean philosophy',
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card4.jpg',
   },
   {
     roman: 'K05',
@@ -77,7 +71,7 @@ const courses = [
         'Examine the philosophical thoughts reflected in the lives of Koreans in a religious context and understand their philosophical significance',
       ],
     },
-    img: '/images/main_card/card01.webp',
+    img: '/images/main_card/card5.jpg',
   },
   {
     roman: 'K06',
@@ -86,16 +80,13 @@ const courses = [
       en: 'Korean Philosophy in Cultural Arts',
     },
     content: {
-      ko: [
-        '한국의 문화･예술에서 나타나는 다양한 사고방식과 표현양식을 철학적 지평에서 조명',
-        '해외 연구자 및 학습자의 관심에 응답',
-      ],
+      ko: ['한국의 문화예술에서 나타나는 다양한 사고방식과 표현양식을 철학적 지평에서 조명'],
       en: [
         'Illuminate the various ways of thinking and forms of expression found in Korean culture and arts from a philosophical perspective',
         'Respond to the interests of overseas researchers and learners',
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card6.jpg',
   },
   {
     roman: 'K07',
@@ -111,7 +102,7 @@ const courses = [
         'Analyze various values, ways of thinking, and behavior patterns found in Korean society and the lives of Koreans from a philosophical perspective',
       ],
     },
-    img: '/images/main_card/card01.webp',
+    img: '/images/main_card/card7.jpg',
   },
   {
     roman: 'K08',
@@ -121,13 +112,13 @@ const courses = [
     },
     content: {
       ko: [
-        '한국철학을 다각도의 방법론을 통해 재조명함으로써, 현대사회에서 한국철학의 역할 및 확장성을 타진한국철학 세계의 확장',
+        '한국철학을 다각도의 방법론을 통해 재조명함으로써, 현대사회에서 한국철학의 역할 및 확장성을 타진',
       ],
       en: [
         'By re-examining Korean philosophy through various methodologies, the role and expansibility of Korean philosophy in modern society are explored',
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card8.jpg',
   },
   {
     roman: 'K09',
@@ -141,7 +132,7 @@ const courses = [
         'Examine external perspectives on Korean philosophy, covering Europe, the English-speaking world, China, and Japan',
       ],
     },
-    img: '/images/main_card/card01.webp',
+    img: '/images/main_card/card9.jpg',
   },
   {
     roman: 'K10',
@@ -151,13 +142,13 @@ const courses = [
     },
     content: {
       ko: [
-        "한국의 전통사상에 깃든 다양한 '원형'을 발견하고, 문화콘텐츠 및 융합콘텐츠로서의 발전방안을 모색",
+        '영상, 문학, 만화, 예술, 문화유산 등 문화콘텐츠를 소재로, 그 속에 담겨 있는 한국의 사상과 한국인의 사유를 소개',
       ],
       en: [
         "Discover various 'prototypes' embedded in Korea's traditional thoughts and explore ways to develop them as cultural contents and fusion contents",
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card10.jpg',
   },
   {
     roman: 'K11',
@@ -169,7 +160,7 @@ const courses = [
       ko: ['한국철학에 입문하기 위한 필수 · 기초 과정', '4개의 강좌로 구성되어 있음'],
       en: ['Essential and basic course to introduce Korean philosophy', 'Consists of 4 courses'],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card1.jpg',
   },
   {
     roman: 'K12',
@@ -187,7 +178,7 @@ const courses = [
         'Consists of 5 courses',
       ],
     },
-    img: '/images/main_card/card02.webp',
+    img: '/images/main_card/card2.jpg',
   },
 ] as const
 

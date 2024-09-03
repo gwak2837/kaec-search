@@ -6,14 +6,17 @@ import { useState } from 'react'
 import { Hit } from '@/types/algolia'
 import { Locale } from '@/middleware'
 import RelatedCoursesButton from './RelatedCoursesButton'
+import { useParams } from 'next/navigation'
+import { PageProps } from '../page'
 
 type Props = {
   hit: Hit
-  lang: Locale
   layout: 'grid' | 'list'
 }
 
-export default function HitCard({ hit, lang, layout }: Props) {
+export default function HitCard({ hit, layout }: Props) {
+  const { lang } = useParams<PageProps['params']>()
+
   const [isOpened, setIsOpened] = useState(false)
 
   const isListLayout = !layout || layout === 'list'
@@ -62,7 +65,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
                   className="w-full max-w-28"
                 />
               </a>
-              <RelatedCoursesButton lang={lang} />
+              <RelatedCoursesButton course={hit} />
             </div>
           </div>
         ) : (
@@ -80,7 +83,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
               {lang === 'en' ? hit.content_eng : hit.content}
             </p>
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
-              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
+              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag.join(', ')}
             </div>
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <a
@@ -91,13 +94,13 @@ export default function HitCard({ hit, lang, layout }: Props) {
               >
                 <Image src="/images/kmoocLogo.png" alt="kmooc" width={269} height={49} />
               </a>
-              <RelatedCoursesButton lang={lang} />
+              <RelatedCoursesButton course={hit} />
             </div>
           </div>
         )}
       </li>
       <Modal showCloseButton showDragButton open={isOpened} onClose={() => setIsOpened(false)}>
-        <div className="grid gap-2 rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl overflow-hidden">
+        <div className="grid gap-2 max-h-svh overflow-auto rounded-2xl bg-gray-100 dark:border-2 dark:border-gray-600 dark:bg-gray-900 pt-5 shadow-xl">
           <Image
             src="https://lms.kmooc.kr/pluginfile.php/2718931/course/overviewfiles_thumbnail/courseoverviews_thumbnail.png"
             alt="courseoverviews_thumbnail"
@@ -115,7 +118,7 @@ export default function HitCard({ hit, lang, layout }: Props) {
             <h4 className="">{lang === 'en' ? hit.week_eng : hit.week}</h4>
             <p className="whitespace-pre-wrap">{lang === 'en' ? hit.content_eng : hit.content}</p>
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
-              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag?.join(', ')}
+              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag.join(', ')}
             </div>
             <a
               href={hit.kmooc}

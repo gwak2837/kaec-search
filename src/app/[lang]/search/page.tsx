@@ -8,6 +8,7 @@ import HitCard from './HitCard'
 import ResultLayoutButtons from './ResultLayoutButtons'
 import PaginationButtons from './PaginationButtons'
 import { notFound } from 'next/navigation'
+import { algoliaClient } from '@/common/algoria'
 
 type Params = {
   facetFilters?: string
@@ -16,55 +17,25 @@ type Params = {
 }
 
 async function fetchSearchResults({ query, page, facetFilters }: Params) {
-  const searchParams = new URLSearchParams({
-    'x-algolia-api-key': 'a17cd62340ac1e08ec65c4b162e78036',
-    'x-algolia-application-id': 'P30FBL1198',
-  })
-
-  const baseParams = {
-    facets: JSON.stringify(ALGOLIA_FACETS),
-    highlightPostTag: '__%2Fais-highlight__',
-    highlightPreTag: '__ais-highlight__',
-    maxValuesPerFacet: '10',
-    query,
+  const base = {
+    indexName: 'lecturedata',
+    query: query,
+    facets: ALGOLIA_FACETS,
+    maxValuesPerFacet: 10,
   }
 
-  // 첫번째 요청: 전체 facet 리스트 가져오기
-  const requests = [
-    {
-      indexName: 'lecturedata',
-      params: new URLSearchParams(baseParams).toString(),
-    },
-  ]
-
-  // 두번째 요청: 필터가 젹용된 검색 결과 가져오기
-  if (facetFilters || page !== 1) {
-    requests.push({
-      indexName: 'lecturedata',
-      params: new URLSearchParams({
-        ...baseParams,
+  return (await algoliaClient.search({
+    requests: [
+      // 첫번째 요청: 전체 facet 리스트 가져오기
+      { ...base },
+      // 두번째 요청: 필터가 젹용된 검색 결과 가져오기
+      {
+        ...base,
         ...(facetFilters && { facetFilters }),
-        ...(page !== 1 && { page: String(page - 1) }),
-      })
-        .toString()
-        .replace(/\+/g, '%20'),
-    })
-  }
-
-  const response = await fetch(
-    `https://p30fbl1198-dsn.algolia.net/1/indexes/*/queries?${searchParams}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: JSON.stringify({ requests }),
-    },
-  )
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch search results')
-  }
-
-  return (await response.json()) as AlgoriaResult
+        ...(page !== 1 && { page: page - 1 }),
+      },
+    ],
+  })) as unknown as AlgoriaResult
 }
 
 export default async function SearchResult({ params, searchParams }: PageProps) {
@@ -107,8 +78,9 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               <Link
                 key={facetKey}
                 aria-selected={facetIndex === i}
-                className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white
-            px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition duration-300 ease-in-out"
+                className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600
+                 aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
+                 duration-300 ease-in-out"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -130,9 +102,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               const newSearchParams = new URLSearchParams({
                 query,
                 ...(facetIndex && { facetIndex: String(facetIndex) }),
-                ...(toggledFacetFilters && {
-                  facetFilters: toggledFacetFilters,
-                }),
+                ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                ...(layout === 'grid' && { layout }),
               })
               return (
                 <Link
@@ -168,22 +139,26 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   value,
                 )
                 const newSearchParams = new URLSearchParams({
-                  ...searchParams,
-                  facetFilters: toggledFacetFilters,
+                  query,
+                  ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                  ...(layout === 'grid' && { layout }),
                 })
                 return (
                   <Link
                     key={value}
                     aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
                     className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
-                dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
-                aria-selected:bg-blue-600"
+                      dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
+                    aria-selected:bg-blue-600"
                     href={`?${newSearchParams}`}
                   >
                     <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
                       {value}
                     </span>
-                    <span className="whitespace-nowrap">{count}개</span>
+                    <span className="whitespace-nowrap">
+                      {count}
+                      {dict.개[lang]}
+                    </span>
                   </Link>
                 )
               })}
@@ -196,12 +171,12 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>
           <ul
-            className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4
-        grid-cols-[repeat(auto-fit,minmax(250px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
+            className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
+              md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
             style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
             {hits.map((hit) => (
-              <HitCard key={hit.id} hit={hit} lang={lang} layout={layout} />
+              <HitCard key={hit.id} hit={hit} layout={layout} />
             ))}
           </ul>
         </main>
@@ -210,14 +185,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
         <>
           <div className="h-40 md:hidden" />
           <nav className="fixed w-full bottom-0 md:relative backdrop-blur p-3	md:backdrop-blur-none border-t-2 md:border-none border-gray-200 dark:border-gray-800">
-            <PaginationButtons
-              pageCount={pageCount}
-              page={page}
-              lang={lang}
-              query={query}
-              facetFilters={facetFilters}
-              facetIndex={facetIndex}
-            />
+            <PaginationButtons pageCount={pageCount} />
           </nav>
         </>
       )}

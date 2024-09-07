@@ -9,6 +9,7 @@ import ResultLayoutButtons from './ResultLayoutButtons'
 import PaginationButtons from './PaginationButtons'
 import { notFound } from 'next/navigation'
 import { algoliaClient } from '@/common/algoria'
+import { Fragment } from 'react'
 
 type Params = {
   facetFilters?: string
@@ -71,15 +72,16 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
     <>
       <div className="grid relative md:grid-cols-[auto_1fr] md:gap-4 md:px-6">
         {/* 768px 미만 */}
-        <aside className="mx-4 max-h-[60svh] overflow-y-auto md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
-          <div className="flex justify-center flex-wrap gap-x-4 gap-y-2">
+        <aside className="mx-4 md:hidden dark:bg-gray-900 bg-gray-100 border-2 p-4 border-gray-200 rounded-lg dark:border-gray-800">
+          <FilterResetButton lang={lang} searchParams={searchParams} />
+          <div className="flex justify-center my-4 flex-wrap gap-x-4 gap-y-2">
             {facetKeys.map((facetKey, i) => (
               <Link
                 key={facetKey}
                 aria-selected={facetIndex === i}
                 className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600
-                 aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
-                 duration-300 ease-in-out"
+              aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
+              duration-300 ease-in-out"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -89,8 +91,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               </Link>
             ))}
           </div>
-          <div className="mt-6 grid gap-4">
-            <FilterResetButton lang={lang} searchParams={searchParams} />
+          <div className="grid gap-4 pt-0 overflow-y-auto max-h-[50svh]">
             {/* TODO: 5개 이상이면 아코디언 만들기 */}
             {selectedFacetEntries.map(([value, count]) => {
               const toggledFacetFilters = toggleFacetFilters(
@@ -125,16 +126,18 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
         </aside>
         {/* 768px 이상 */}
         <div className="md:w-[364px] lg:w-[444px]" />
-        <aside className="min-h-0 pb-4 top-0 left-6 absolute bottom-0 overflow-y-auto hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
-          <FilterResetButton lang={lang} searchParams={searchParams} />
+        <aside className="min-h-0 p-4 pt-0 top-0 left-6 absolute overflow-y-auto bottom-0 hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
+          <div className="sticky top-0 pt-4 dark:bg-gray-900 bg-gray-100">
+            <FilterResetButton lang={lang} searchParams={searchParams} />
+          </div>
           {facetsEntries.map(([facetKey, values]) => (
-            <div key={facetKey}>
+            <Fragment key={facetKey}>
               <div className="sticky top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
                 <div className="min-w-24 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
                   {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
                 </div>
               </div>
-              <ul className="grid px-4 gap-4">
+              <ul className="grid gap-4">
                 {Object.entries<number>(values).map(([value, count]) => {
                   const toggledFacetFilters = toggleFacetFilters(
                     parseFacetFilters(facetFilters),
@@ -164,7 +167,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   )
                 })}
               </ul>
-            </div>
+            </Fragment>
           ))}
         </aside>
         <main className="h-fit">

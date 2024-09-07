@@ -13,7 +13,7 @@ export default async function SearchLayout({ params, children }: LayoutProps) {
       <div className="relative">
         <h1
           className="absolute w-full text-center text-shadow-white-lg dark:text-shadow-black-lg tracking-wide bottom-4 font-semibold p-4 
-            text-2xl sm:text-5xl md:text-6xl"
+            text-2xl sm:text-4xl md:text-5xl"
         >
           {dict['K-학술확산센터 강좌 검색창'][lang]}
         </h1>

@@ -26,7 +26,7 @@ export default function PaginationButtons({ pageCount }: Props) {
   const maxButtonCount = Math.min(pageCount, 999)
 
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className="flex justify-center px-4 whitespace-nowrap items-center gap-2">
       <Link
         href={`?${new URLSearchParams({
           query,

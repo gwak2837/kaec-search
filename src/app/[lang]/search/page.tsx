@@ -69,9 +69,9 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <div className="grid md:grid-cols-[max-content_1fr] md:gap-6 md:px-6">
+      <div className="grid relative md:grid-cols-[auto_1fr] md:gap-4 md:px-6">
         {/* 768px 미만 */}
-        <aside className="mx-4 h-fit md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
+        <aside className="mx-4 max-h-[60svh] overflow-y-auto md:hidden dark:bg-gray-900 bg-gray-100 border-2 border-gray-200 p-4 rounded-lg dark:border-gray-800">
           <div className="flex justify-center flex-wrap gap-x-4 gap-y-2">
             {facetKeys.map((facetKey, i) => (
               <Link
@@ -124,51 +124,56 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
           </div>
         </aside>
         {/* 768px 이상 */}
-        <aside className="h-fit hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-6 rounded-lg border-2 border-gray-200 dark:border-gray-800">
+        <div className="md:w-[364px] lg:w-[444px]" />
+        <aside className="min-h-0 pb-4 top-0 left-6 absolute bottom-0 overflow-y-auto hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
           <FilterResetButton lang={lang} searchParams={searchParams} />
           {facetsEntries.map(([facetKey, values]) => (
-            <div key={facetKey} className="grid w-full gap-4">
-              <span className="min-w-24 mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
-                {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
-              </span>
-              {Object.entries<number>(values).map(([value, count]) => {
-                const toggledFacetFilters = toggleFacetFilters(
-                  parseFacetFilters(facetFilters),
-                  facetKey,
-                  value,
-                )
-                const newSearchParams = new URLSearchParams({
-                  query,
-                  ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
-                  ...(layout === 'grid' && { layout }),
-                })
-                return (
-                  <Link
-                    key={value}
-                    aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
-                    className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
+            <div key={facetKey}>
+              <div className="sticky top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
+                <div className="min-w-24 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
+                  {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
+                </div>
+              </div>
+              <ul className="grid px-4 gap-4">
+                {Object.entries<number>(values).map(([value, count]) => {
+                  const toggledFacetFilters = toggleFacetFilters(
+                    parseFacetFilters(facetFilters),
+                    facetKey,
+                    value,
+                  )
+                  const newSearchParams = new URLSearchParams({
+                    query,
+                    ...(toggledFacetFilters && { facetFilters: toggledFacetFilters }),
+                    ...(layout === 'grid' && { layout }),
+                  })
+                  return (
+                    <Link
+                      key={value}
+                      aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
+                      className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
                       dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
                     aria-selected:bg-blue-600"
-                    href={`?${newSearchParams}`}
-                  >
-                    <span className="min-w-60 max-w-60 lg:min-w-80 lg:max-w-80">{value}</span>
-                    <span className="whitespace-nowrap">
-                      {count}
-                      {dict.개[lang]}
-                    </span>
-                  </Link>
-                )
-              })}
+                      href={`?${newSearchParams}`}
+                    >
+                      <span className="min-w-60 max-w-60 lg:min-w-80 lg:max-w-80">{value}</span>
+                      <span className="whitespace-nowrap">
+                        {count}
+                        {dict.개[lang]}
+                      </span>
+                    </Link>
+                  )
+                })}
+              </ul>
             </div>
           ))}
         </aside>
-        <main>
+        <main className="h-fit">
           <div className="flex justify-end items-center gap-4 px-4 md:px-0">
             <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>
           <ul
-            className="grid gap-4 px-4 pb-8 md:p-0 md:py-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
+            className="grid gap-4 px-4 pb-8 md:p-0 md:pt-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
               md:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
             style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
@@ -181,7 +186,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
       {pageCount > 1 && (
         <>
           <div className="h-40 md:hidden" />
-          <nav className="fixed w-full bottom-0 md:relative backdrop-blur p-3	md:backdrop-blur-none border-t-2 md:border-none border-gray-200 dark:border-gray-800">
+          <nav className="fixed w-full bottom-0 overflow-x-auto md:static backdrop-blur p-3	md:backdrop-blur-none border-t-2 md:border-none border-gray-200 dark:border-gray-800">
             <PaginationButtons pageCount={pageCount} />
           </nav>
         </>

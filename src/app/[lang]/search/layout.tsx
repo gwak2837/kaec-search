@@ -39,7 +39,7 @@ export default async function SearchLayout({ params, children }: LayoutProps) {
 
 const dict = {
   'K-학술확산센터 강좌 검색창': {
-    ko: 'K-학술확산센터 강좌 검색창',
+    ko: 'K-학술확산연구센터 강좌 검색창',
     en: 'KAEP Lecture Search Bar',
   },
   처음으로: {

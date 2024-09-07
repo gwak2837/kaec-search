@@ -151,9 +151,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                     aria-selected:bg-blue-600"
                     href={`?${newSearchParams}`}
                   >
-                    <span className="max-w-60 min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
-                      {value}
-                    </span>
+                    <span className="min-w-60 max-w-60 lg:min-w-80 lg:max-w-80">{value}</span>
                     <span className="whitespace-nowrap">
                       {count}
                       {dict.개[lang]}
@@ -170,8 +168,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>
           <ul
-            className="grid gap-4 md:gap-6 px-4 pb-8 md:p-0 md:py-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
-              md:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] lg:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
+            className="grid gap-4 px-4 pb-8 md:p-0 md:py-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
+              md:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
             style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
           >
             {hits.map((hit) => (

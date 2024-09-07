@@ -11,6 +11,7 @@ export interface Result {
 }
 
 export interface Hit {
+  Coursera: 0 | 1
   title_eng: string
   week: string
   subject: string

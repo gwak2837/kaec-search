@@ -27,6 +27,24 @@ export default function HitCard({ hit, layout }: Props) {
       : Array.isArray(hit.tag)
         ? hit.tag.join(', ')
         : hit.tag
+  const outlinkIcon =
+    hit.Coursera === 1 ? (
+      <Image
+        src="/images/coursera.svg"
+        alt="coursera"
+        width={1155}
+        height={164}
+        className="w-full max-w-28"
+      />
+    ) : (
+      <Image
+        src="/images/kmoocLogo.png"
+        alt="kmooc"
+        width={269}
+        height={49}
+        className="w-full max-w-28"
+      />
+    )
 
   return (
     <>
@@ -64,13 +82,7 @@ export default function HitCard({ hit, layout }: Props) {
                 className="border flex justify-center items-center rounded-xl border-gray-300 dark:border-gray-500 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
-                <Image
-                  src="/images/kmoocLogo.png"
-                  alt="kmooc"
-                  width={269}
-                  height={49}
-                  className="w-full max-w-28"
-                />
+                {outlinkIcon}
               </a>
               <RelatedCoursesButton course={hit} />
             </div>
@@ -96,10 +108,10 @@ export default function HitCard({ hit, layout }: Props) {
               <a
                 href={hit.kmooc}
                 target="_blank"
-                className="border flex items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                className="border flex justify-center items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
-                <Image src="/images/kmoocLogo.png" alt="kmooc" width={269} height={49} />
+                {outlinkIcon}
               </a>
               <RelatedCoursesButton course={hit} />
             </div>
@@ -133,13 +145,7 @@ export default function HitCard({ hit, layout }: Props) {
               className="border justify-center flex items-center rounded-lg border-gray-300 dark:border-gray-500 px-4 py-3 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                src="/images/kmoocLogo.png"
-                alt="kmooc"
-                width={269}
-                height={49}
-                className="max-w-24"
-              />
+              {outlinkIcon}
             </a>
           </div>
         </div>

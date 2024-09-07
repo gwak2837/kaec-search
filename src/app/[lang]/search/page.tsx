@@ -92,7 +92,6 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
             ))}
           </div>
           <div className="grid gap-4 pt-0 overflow-y-auto max-h-[50svh]">
-            {/* TODO: 5개 이상이면 아코디언 만들기 */}
             {selectedFacetEntries.map(([value, count]) => {
               const toggledFacetFilters = toggleFacetFilters(
                 parseFacetFilters(facetFilters),
@@ -125,19 +124,34 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
           </div>
         </aside>
         {/* 768px 이상 */}
-        <div className="md:w-[364px] lg:w-[444px]" />
-        <aside className="min-h-0 p-4 pt-0 top-0 left-6 absolute overflow-y-auto bottom-0 hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
-          <div className="sticky top-0 pt-4 dark:bg-gray-900 bg-gray-100">
+        <div className="md:w-80 lg:w-96" />
+        <aside className="min-h-0 md:w-80 lg:w-96 p-4 pt-0 top-0 left-6 absolute overflow-y-auto bottom-0 hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
+          <div className="sticky top-0 pt-4 z-10 dark:bg-gray-900 bg-gray-100">
             <FilterResetButton lang={lang} searchParams={searchParams} />
           </div>
           {facetsEntries.map(([facetKey, values]) => (
-            <Fragment key={facetKey}>
-              <div className="sticky top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
-                <div className="min-w-24 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
+            <div key={facetKey}>
+              <div className="sticky peer top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
+                <label className="min-w-24 flex gap-2 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
                   {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
-                </div>
+                  <input type="checkbox" className="hidden peer" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="peer-checked:rotate-180"
+                  >
+                    <polyline points="18 15 12 9 6 15" />
+                  </svg>
+                </label>
               </div>
-              <ul className="grid gap-4">
+              <ul className="grid peer-has-[:checked]:hidden gap-4">
                 {Object.entries<number>(values).map(([value, count]) => {
                   const toggledFacetFilters = toggleFacetFilters(
                     parseFacetFilters(facetFilters),
@@ -158,7 +172,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                     aria-selected:bg-blue-600"
                       href={`?${newSearchParams}`}
                     >
-                      <span className="min-w-60 max-w-60 lg:min-w-80 lg:max-w-80">{value}</span>
+                      <span>{value}</span>
                       <span className="whitespace-nowrap">
                         {count}
                         {dict.개[lang]}
@@ -167,7 +181,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   )
                 })}
               </ul>
-            </Fragment>
+            </div>
           ))}
         </aside>
         <main className="h-fit">

@@ -27,7 +27,7 @@ export default function Loading() {
       </aside>
 
       {/*  Sidebar (Desktop)  */}
-      <aside className="h-fit hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-6 rounded-lg border-2 border-gray-200 dark:border-gray-800">
+      <aside className="h-fit md:w-80 lg:w-96 hidden md:grid gap-4 dark:bg-gray-900 bg-gray-100 p-4 rounded-lg border-2 border-gray-200 dark:border-gray-800">
         <a className="md:text-lg font-semibold text-center text-white dark:text-red-500 p-3 md:p-4 bg-opacity-80 hover:bg-opacity-90 bg-red-700 dark:bg-red-500 dark:bg-opacity-20 rounded-lg dark:hover:bg-opacity-40 transition duration-300 ease-in-out">
           필터 초기화
         </a>
@@ -35,12 +35,17 @@ export default function Loading() {
           <span className="min-w-24 mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
             ...
           </span>
-          <a className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg  dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold  aria-selected:bg-blue-600">
-            <span className="max-w-60  min-w-60 lg:max-w-80 lg:min-w-60 xl:max-w-96 xl:min-w-96">
-              ...
-            </span>
-            <span className="whitespace-nowrap">... 개</span>
-          </a>
+          {Array(2)
+            .fill(0)
+            .map((_, index) => (
+              <a
+                key={index}
+                className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg  dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold  aria-selected:bg-blue-600"
+              >
+                <span>...</span>
+                <span className="whitespace-nowrap">... 개</span>
+              </a>
+            ))}
         </div>
       </aside>
 

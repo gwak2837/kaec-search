@@ -14,7 +14,7 @@ export interface Hit {
   title_eng: string
   week: string
   subject: string
-  tag_eng: string[] | null // FIXME: 2024-08-25 추후 깨끗한 데이터 받으면 `null` 없애기
+  tag_eng: string | string[]
   content_eng: string
   title: string
   content: string
@@ -25,7 +25,7 @@ export interface Hit {
   week_eng: string
   id: string
   subject_eng: string
-  tag: string[]
+  tag: string | string[]
   path: string
   lastmodified: Lastmodified
   objectID: string

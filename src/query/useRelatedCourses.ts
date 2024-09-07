@@ -10,7 +10,14 @@ type Props = {
 }
 
 export default function useRelatedCourses({ lang, course, enabled }: Props) {
-  const tags = lang === 'ko' ? course.tag : (course.tag_eng ?? [])
+  const tags =
+    lang === 'ko'
+      ? Array.isArray(course.tag)
+        ? course.tag
+        : [course.tag]
+      : Array.isArray(course.tag_eng)
+        ? course.tag_eng
+        : [course.tag_eng]
 
   return useQuery({
     queryKey: [course.id, 'related-courses', lang],

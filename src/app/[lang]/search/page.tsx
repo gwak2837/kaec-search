@@ -18,10 +18,9 @@ type Params = {
 
 async function fetchSearchResults({ query, page, facetFilters }: Params) {
   const base = {
-    indexName: 'lecturedata',
+    indexName: 'lecturedataIndex',
     query: query,
     facets: ALGOLIA_FACETS,
-    maxValuesPerFacet: 10,
   }
 
   return (await algoliaClient.search({
@@ -86,7 +85,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   ...(facetFilters && { facetFilters }),
                 })}&facetIndex=${i}`}
               >
-                {facetKey}
+                {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
               </Link>
             ))}
           </div>
@@ -130,7 +129,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
           {facetsEntries.map(([facetKey, values]) => (
             <div key={facetKey} className="grid w-full gap-4">
               <span className="min-w-24 mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
-                {facetKey}
+                {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
               </span>
               {Object.entries<number>(values).map(([value, count]) => {
                 const toggledFacetFilters = toggleFacetFilters(
@@ -197,5 +196,15 @@ const dict = {
   개: {
     ko: '개',
     en: ' items',
+  },
+  facetKeys: {
+    subject: {
+      ko: '대주제',
+      en: 'subject',
+    },
+    lecturer: {
+      ko: '교수자',
+      en: 'lecturer',
+    },
   },
 } as const

@@ -59,10 +59,10 @@ export default function RelatedCoursesButton({ course }: Props) {
           <h2 className="font-bold text-2xl md:text-3xl">
             {dict.강좌제목[lang]}: {isKorean ? course.title : course.title_eng}
           </h2>
-          <ul className="list-disc min-w-0 ml-4 grid gap-2 md:text-lg max-w-prose">
-            {isLoading && (
-              <div className="animate-pulse rounded-full h-7 bg-gray-300 dark:bg-gray-700" />
-            )}
+          {isLoading && (
+            <div className="animate-pulse rounded-full h-7 bg-gray-300 dark:bg-gray-700" />
+          )}
+          <ul className="list-disc min-w-0 ml-4 grid gap-2 md:text-lg w-full max-w-prose">
             {relatedCourses?.map((relatedCourse) => {
               const courseWeek = isKorean ? relatedCourse.week : relatedCourse.week_eng
               const newSearchParams = new URLSearchParams({

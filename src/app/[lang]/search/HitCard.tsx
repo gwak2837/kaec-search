@@ -4,7 +4,6 @@ import Image from 'next/image'
 import Modal from '@/components/Modal'
 import { useState } from 'react'
 import { Hit } from '@/types/algolia'
-import { Locale } from '@/middleware'
 import RelatedCoursesButton from './RelatedCoursesButton'
 import { useParams } from 'next/navigation'
 import { PageProps } from '../page'
@@ -20,6 +19,14 @@ export default function HitCard({ hit, layout }: Props) {
   const [isOpened, setIsOpened] = useState(false)
 
   const isListLayout = !layout || layout === 'list'
+  const tag =
+    lang === 'en'
+      ? Array.isArray(hit.tag_eng)
+        ? hit.tag_eng.join(', ')
+        : hit.tag_eng
+      : Array.isArray(hit.tag)
+        ? hit.tag.join(', ')
+        : hit.tag
 
   return (
     <>
@@ -83,7 +90,7 @@ export default function HitCard({ hit, layout }: Props) {
               {lang === 'en' ? hit.content_eng : hit.content}
             </p>
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
-              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag.join(', ')}
+              {dict.태그[lang]}: {tag}
             </div>
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <a
@@ -118,7 +125,7 @@ export default function HitCard({ hit, layout }: Props) {
             <h4 className="">{lang === 'en' ? hit.week_eng : hit.week}</h4>
             <p className="whitespace-pre-wrap">{lang === 'en' ? hit.content_eng : hit.content}</p>
             <div className="text-ellipsis overflow-hidden text-xs md:text-sm text-gray-600 dark:text-gray-400">
-              {dict.태그[lang]}: {lang === 'en' ? hit.tag_eng?.join(', ') : hit.tag.join(', ')}
+              {dict.태그[lang]}: {tag}
             </div>
             <a
               href={hit.kmooc}

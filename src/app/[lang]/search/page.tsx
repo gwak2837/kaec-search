@@ -132,7 +132,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
           {facetsEntries.map(([facetKey, values]) => (
             <div key={facetKey}>
               <div className="sticky peer top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
-                <label className="min-w-24 flex gap-2 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
+                <label className="min-w-24 cursor-pointer flex gap-2 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
                   {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
                   <input type="checkbox" className="hidden peer" />
                   <svg

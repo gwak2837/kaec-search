@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation'
 import { algoliaClient } from '@/common/algoria'
 import { Fragment } from 'react'
 import NotFound from './not-found'
+import FacetFilterLink from './FacetFilterLink'
 
 type Params = {
   facetFilters?: string
@@ -43,20 +44,18 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
   const query = searchParams.query as string
 
   if (!query) {
-    return notFound()
+    return <NotFound />
   }
 
-  const facetFilters = searchParams.facetFilters as string
+  const facetFilters = Array.isArray(searchParams.facetFilters)
+    ? searchParams.facetFilters[0]
+    : (searchParams.facetFilters ?? '')
   const page = +((searchParams.page as string) ?? 1)
 
   const searchResults = await fetchSearchResults({ query, facetFilters, page })
 
   const searchResult = searchResults.results[searchResults.results.length - 1]
   const hits = searchResult.hits
-
-  if (!hits.length) {
-    return <NotFound />
-  }
 
   const originalSearchResult = searchResults.results[0]
   const facets = originalSearchResult.facets
@@ -75,18 +74,16 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <div className="grid relative md:grid-cols-[auto_1fr] md:gap-4 md:px-6 md:mb-6">
+      <div className="relative grid md:mb-6 md:grid-cols-[auto_1fr] md:gap-4 md:px-6">
         {/* 768px 미만 */}
-        <aside className="mx-4 md:hidden dark:bg-gray-900 bg-gray-100 border-2 p-4 border-gray-200 rounded-lg dark:border-gray-800">
+        <aside className="mx-4 rounded-lg border-2 border-gray-200 bg-gray-100 p-4 md:hidden dark:border-gray-800 dark:bg-gray-900">
           <FilterResetButton lang={lang} searchParams={searchParams} />
-          <div className="flex justify-center my-4 flex-wrap gap-x-4 gap-y-2">
+          <div className="my-4 flex flex-wrap justify-center gap-x-4 gap-y-2">
             {facetKeys.map((facetKey, i) => (
               <Link
                 key={facetKey}
                 aria-selected={facetIndex === i}
-                className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600
-                  aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
-                  duration-300 ease-in-out"
+                className="min-w-24 rounded-full bg-white px-4 py-2 text-center transition duration-300 ease-in-out aria-selected:bg-blue-600 aria-selected:font-semibold aria-selected:text-white dark:bg-opacity-20 dark:hover:bg-opacity-30 dark:aria-selected:bg-blue-800"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -96,7 +93,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
               </Link>
             ))}
           </div>
-          <div className="grid gap-4 pt-0 overflow-y-auto max-h-[50svh]">
+          <div className="grid max-h-[50svh] gap-4 overflow-y-auto pt-0">
             {selectedFacetEntries.map(([value, count]) => {
               const toggledFacetFilters = toggleFacetFilters(
                 parseFacetFilters(facetFilters),
@@ -110,36 +107,32 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                 ...(layout === 'grid' && { layout }),
               })
               return (
-                <Link
+                <FacetFilterLink
                   key={value}
-                  aria-selected={facetFilters?.includes(`${selectedFacetKey}:${value}`)}
-                  className="items-center border dark:border-none p-3 md:p-4 dark:bg-opacity-10 rounded-lg dark:hover:bg-opacity-20 bg-white
-                    transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
-                    aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
+                  value={value}
+                  className="flex items-center justify-between gap-2 rounded-lg border bg-white p-3 transition duration-300 ease-in-out aria-selected:bg-blue-600 aria-selected:font-semibold aria-selected:text-white md:p-4 dark:border-none dark:bg-opacity-10 dark:hover:bg-opacity-20 dark:aria-selected:bg-blue-800"
                   href={`?${newSearchParams}`}
-                >
-                  <span>{value}</span>
-                  <span className="whitespace-nowrap">
-                    {count}
-                    {dict.개[lang]}
-                  </span>
-                </Link>
+                  count={count}
+                  facetKey={selectedFacetKey}
+                  facetFilters={facetFilters}
+                  lang={lang}
+                />
               )
             })}
           </div>
         </aside>
         {/* 768px 이상 */}
         <div className="md:w-80 lg:w-96" />
-        <aside className="min-h-0 md:w-80 lg:w-96 p-4 pt-0 top-0 left-6 absolute overflow-y-auto bottom-0 hidden md:block dark:bg-gray-900 bg-gray-100 rounded-lg border-2 border-gray-200 dark:border-gray-800">
-          <div className="sticky top-0 pt-4 z-10 dark:bg-gray-900 bg-gray-100">
+        <aside className="absolute bottom-0 left-6 top-0 hidden min-h-0 overflow-y-auto rounded-lg border-2 border-gray-200 bg-gray-100 p-4 pt-0 md:block md:w-80 lg:w-96 dark:border-gray-800 dark:bg-gray-900">
+          <div className="sticky top-0 z-10 bg-gray-100 pt-4 dark:bg-gray-900">
             <FilterResetButton lang={lang} searchParams={searchParams} />
           </div>
           {facetsEntries.map(([facetKey, values]) => (
             <div key={facetKey}>
-              <div className="sticky peer top-[76px] p-4 dark:bg-gray-900 bg-gray-100">
-                <label className="min-w-24 cursor-pointer flex gap-2 w-fit mx-auto text-center font-semibold px-4 py-2 rounded-full bg-white dark:bg-opacity-20">
+              <div className="peer sticky top-[76px] bg-gray-100 p-4 dark:bg-gray-900">
+                <label className="mx-auto flex w-fit min-w-24 cursor-pointer gap-2 rounded-full bg-white px-4 py-2 text-center font-semibold dark:bg-opacity-20">
                   {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
-                  <input type="checkbox" className="hidden peer" />
+                  <input type="checkbox" className="peer hidden" />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -156,7 +149,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   </svg>
                 </label>
               </div>
-              <ul className="grid peer-has-[:checked]:hidden gap-4">
+              <ul className="grid gap-4 peer-has-[:checked]:hidden">
                 {Object.entries<number>(values).map(([value, count]) => {
                   const toggledFacetFilters = toggleFacetFilters(
                     parseFacetFilters(facetFilters),
@@ -169,20 +162,16 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                     ...(layout === 'grid' && { layout }),
                   })
                   return (
-                    <Link
+                    <FacetFilterLink
                       key={value}
-                      aria-selected={facetFilters?.includes(`${facetKey}:${value}`)}
-                      className="text-lg flex justify-between gap-4 aria-selected:text-white content-card p-4 bg-white dark:bg-opacity-10 rounded-lg 
-                      dark:hover:bg-opacity-20 border dark:border-none transition duration-300 ease-in-out dark:aria-selected:bg-blue-800 aria-selected:font-bold 
-                    aria-selected:bg-blue-600"
+                      value={value}
+                      className="flex items-center justify-between gap-4 rounded-lg border bg-white p-4 text-lg transition duration-300 ease-in-out aria-selected:bg-blue-600 aria-selected:font-bold aria-selected:text-white dark:border-none dark:bg-opacity-10 dark:hover:bg-opacity-20 dark:aria-selected:bg-blue-800"
                       href={`?${newSearchParams}`}
-                    >
-                      <span>{value}</span>
-                      <span className="whitespace-nowrap">
-                        {count}
-                        {dict.개[lang]}
-                      </span>
-                    </Link>
+                      count={count}
+                      facetKey={facetKey}
+                      facetFilters={facetFilters}
+                      lang={lang}
+                    />
                   )
                 })}
               </ul>
@@ -190,25 +179,28 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
           ))}
         </aside>
         <main className="h-fit min-h-svh">
-          <div className="flex justify-end items-center gap-4 px-4 md:px-0">
-            <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
+          <div className="flex items-center justify-end gap-4 px-4 md:px-0">
+            <div className="p-4 text-right md:p-0">총 {totalHits}개</div>
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />
           </div>
-          <ul
-            className="grid gap-4 px-4 pb-8 md:p-0 md:pt-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))] 
-              md:grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
-            style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
-          >
-            {hits.map((hit) => (
-              <HitCard key={hit.id} hit={hit} layout={layout} />
-            ))}
-          </ul>
+          {hits.length > 0 ? (
+            <ul
+              className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 px-4 pb-8 md:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] md:p-0 md:pt-4"
+              style={{ gridTemplateColumns: isListLayout ? '1fr' : undefined }}
+            >
+              {hits.map((hit) => (
+                <HitCard key={hit.id} hit={hit} layout={layout} />
+              ))}
+            </ul>
+          ) : (
+            <NotFound />
+          )}
         </main>
       </div>
       {pageCount > 1 && (
         <>
           <div className="h-20 md:hidden" />
-          <nav className="fixed w-full bottom-0 overflow-x-auto md:static backdrop-blur p-3	md:backdrop-blur-none border-t-2 md:border-none border-gray-200 dark:border-gray-800">
+          <nav className="fixed bottom-0 w-full overflow-x-auto border-t-2 border-gray-200 p-3 backdrop-blur md:static md:border-none md:backdrop-blur-none dark:border-gray-800">
             <PaginationButtons pageCount={pageCount} />
           </nav>
         </>

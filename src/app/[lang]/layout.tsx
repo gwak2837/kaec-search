@@ -10,8 +10,8 @@ import { Locale } from '@/middleware'
 import ReactQueryProvider from '@/components/ReactQueryProvider'
 
 export const metadata: Metadata = {
-  title: 'K-학술확산센터 강좌 검색',
-  description: 'K-학술확산센터 강좌 검색',
+  title: 'K-학술확산연구센터 강좌 검색',
+  description: 'K-학술확산연구센터 강좌 검색',
 }
 
 const myFont = localFont({

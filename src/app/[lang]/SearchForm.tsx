@@ -64,7 +64,7 @@ export default function SearchForm() {
 
 const dict = {
   'K-학술확산센터 강좌를': {
-    ko: 'K-학술확산센터 강좌를 검색하세요',
+    ko: 'K-학술확산연구센터 강좌를 검색하세요',
     en: 'Search KAEP Lecture',
   },
 } as const

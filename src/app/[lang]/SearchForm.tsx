@@ -16,7 +16,7 @@ export default function SearchForm() {
     event.preventDefault()
     const formElement = event.target as HTMLFormElement
     const inputElement = formElement[0] as HTMLInputElement
-    const query = inputElement.value
+    const query = inputElement.value.trim()
 
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.delete('facetFilters')

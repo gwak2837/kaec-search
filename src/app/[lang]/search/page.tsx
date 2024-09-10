@@ -10,6 +10,7 @@ import PaginationButtons from './PaginationButtons'
 import { notFound } from 'next/navigation'
 import { algoliaClient } from '@/common/algoria'
 import { Fragment } from 'react'
+import NotFound from './not-found'
 
 type Params = {
   facetFilters?: string
@@ -20,7 +21,7 @@ type Params = {
 async function fetchSearchResults({ query, page, facetFilters }: Params) {
   const base = {
     indexName: 'lecturedataIndex',
-    query: query,
+    query,
     facets: ALGOLIA_FACETS,
   }
 
@@ -53,6 +54,10 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
   const searchResult = searchResults.results[searchResults.results.length - 1]
   const hits = searchResult.hits
 
+  if (!hits.length) {
+    return <NotFound />
+  }
+
   const originalSearchResult = searchResults.results[0]
   const facets = originalSearchResult.facets
   const facetKeys = Object.keys(facets)
@@ -70,7 +75,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
 
   return (
     <>
-      <div className="grid relative md:grid-cols-[auto_1fr] md:gap-4 md:px-6">
+      <div className="grid relative md:grid-cols-[auto_1fr] md:gap-4 md:px-6 md:mb-6">
         {/* 768px 미만 */}
         <aside className="mx-4 md:hidden dark:bg-gray-900 bg-gray-100 border-2 p-4 border-gray-200 rounded-lg dark:border-gray-800">
           <FilterResetButton lang={lang} searchParams={searchParams} />
@@ -184,7 +189,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
             </div>
           ))}
         </aside>
-        <main className="h-fit">
+        <main className="h-fit min-h-svh">
           <div className="flex justify-end items-center gap-4 px-4 md:px-0">
             <div className="text-right p-4 md:p-0">총 {totalHits}개</div>
             <ResultLayoutButtons layout={layout} lang={lang} searchParams={searchParams} />

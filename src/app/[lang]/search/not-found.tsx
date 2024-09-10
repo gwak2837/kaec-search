@@ -9,7 +9,7 @@ export default function NotFound() {
           페이지를 찾을 수 없습니다.
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          KAEP 강의 검색어를 입력하거나 주소창의 `query` 값을 채워주세요
+          KAEP 강의 검색어를 변경하거나 주소창의 `query` 값을 바꿔주세요
         </p>
         <>
           <Link

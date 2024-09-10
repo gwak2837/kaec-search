@@ -33,19 +33,21 @@ export default function HomePage({ params: { lang } }: PageProps) {
           className="absolute inset-0 object-cover h-full w-full z-0"
         />
       </div>
-      <h2 className="font-bold text-4xl mx-4 my-8 md:text-5xl">{dict.강좌소개[lang]}</h2>
-      <h3 className="font-bold text-2xl mx-4 my-8 md:text-4xl">
-        {dict['살아있는 전통으로서'][lang]}
-      </h3>
-      <div className="m-4 text-lg md:text-xl">
-        <p>{dict['1. K-MOOC을 위한'][lang]}</p>
-        <p>{dict['2. Coursera를 위한'][lang]}</p>
+      <div className="mx-auto max-w-screen-xl">
+        <h2 className="font-bold text-4xl mx-4 my-8 md:text-5xl">{dict.강좌소개[lang]}</h2>
+        <h3 className="font-bold text-2xl mx-4 my-8 md:text-4xl">
+          {dict['살아있는 전통으로서'][lang]}
+        </h3>
+        <div className="m-4 text-lg md:text-xl">
+          <p>{dict['1. K-MOOC을 위한'][lang]}</p>
+          <p>{dict['2. Coursera를 위한'][lang]}</p>
+        </div>
+        <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(205px,1fr))] px-4">
+          {courses.map((course) => (
+            <CourseCard key={course.roman} course={course} lang={lang} />
+          ))}
+        </ul>
       </div>
-      <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] max-w-6xl px-2">
-        {courses.map((course) => (
-          <CourseCard key={course.roman} course={course} lang={lang} />
-        ))}
-      </ul>
     </main>
   )
 }

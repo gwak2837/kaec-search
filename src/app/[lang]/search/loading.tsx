@@ -50,7 +50,7 @@ export default function Loading() {
       </aside>
 
       {/*  Main Content  */}
-      <main>
+      <main className="min-h-svh">
         <div className="flex justify-end items-center gap-4 px-4 md:px-0">
           <div className="text-right p-4 md:p-0">총 ... 개</div>
           <div className="grid grid-cols-2 bg-gray-200 dark:bg-gray-800 p-1 rounded-xl">

@@ -42,7 +42,7 @@ export default function HomePage({ params: { lang } }: PageProps) {
           <p>{dict['1. K-MOOC을 위한'][lang]}</p>
           <p>{dict['2. Coursera를 위한'][lang]}</p>
         </div>
-        <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(205px,1fr))] px-4">
+        <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(202px,1fr))] px-4">
           {courses.map((course, i) => (
             <CourseCard key={course.roman} course={course} lang={lang} isReversed={i > 4} />
           ))}

@@ -85,8 +85,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                 key={facetKey}
                 aria-selected={facetIndex === i}
                 className="min-w-24 text-center dark:aria-selected:bg-blue-800 aria-selected:font-semibold aria-selected:bg-blue-600
-              aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
-              duration-300 ease-in-out"
+                  aria-selected:text-white px-4 py-2 rounded-full bg-white dark:bg-opacity-20 dark:hover:bg-opacity-30 transition 
+                  duration-300 ease-in-out"
                 href={`?${new URLSearchParams({
                   query,
                   ...(facetFilters && { facetFilters }),
@@ -114,8 +114,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   key={value}
                   aria-selected={facetFilters?.includes(`${selectedFacetKey}:${value}`)}
                   className="items-center border dark:border-none p-3 md:p-4 dark:bg-opacity-10 rounded-lg dark:hover:bg-opacity-20 bg-white
-              transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
-              aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
+                    transition duration-300 ease-in-out flex gap-2 justify-between dark:aria-selected:bg-blue-800 
+                    aria-selected:font-semibold aria-selected:bg-blue-600 aria-selected:text-white hover:bg-opacity-50"
                   href={`?${newSearchParams}`}
                 >
                   <span>{value}</span>

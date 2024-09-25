@@ -11,5 +11,7 @@ async function getCoverImageURLFromKMOOC(url: string) {
 }
 
 const kmoocURL = 'https://www.kmooc.kr/view/course/detail/10429?tm=20240827111058'
-const coverImageURL = await getCoverImageURLFromKMOOC(kmoocURL)
-console.log('👀 ~ coverImageURL:', coverImageURL)
+
+getCoverImageURLFromKMOOC(kmoocURL).then((coverImageURL) => {
+  console.log('👀 ~ coverImageURL:', coverImageURL)
+})

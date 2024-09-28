@@ -21,7 +21,7 @@ export interface Hit {
   content: string
   related: string
   kmooc: string
-  kmoocThumnailURL: string
+  thumbnail: string
   related_eng: string
   week_eng: string
   id: string

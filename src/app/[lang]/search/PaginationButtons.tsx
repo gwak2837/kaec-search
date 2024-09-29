@@ -26,7 +26,7 @@ export default function PaginationButtons({ pageCount }: Props) {
   const maxButtonCount = Math.min(pageCount, 999)
 
   return (
-    <div className="flex justify-center px-4 whitespace-nowrap items-center gap-2">
+    <div className="flex items-center justify-center gap-2 whitespace-nowrap px-4">
       <Link
         href={`?${new URLSearchParams({
           query,
@@ -36,9 +36,8 @@ export default function PaginationButtons({ pageCount }: Props) {
           ...(prevPage !== 1 && { page: String(prevPage) }),
         })}`}
         aria-disabled={page <= 1}
-        className="px-4 py-2 aria-disabled:cursor-not-allowed rounded-full transition duration-300 ease-in-out
-          bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 
-          aria-disabled:bg-gray-300 dark:aria-disabled:bg-gray-700 aria-disabled:text-gray-500"
+        className="rounded-full bg-gray-200 px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 aria-disabled:cursor-not-allowed aria-disabled:bg-gray-300 aria-disabled:text-gray-500 dark:bg-gray-800 dark:hover:bg-gray-700 dark:aria-disabled:bg-gray-700"
+        scroll={false}
       >
         {dict.이전[lang]}
       </Link>
@@ -48,9 +47,7 @@ export default function PaginationButtons({ pageCount }: Props) {
           <Link
             key={i}
             aria-selected={i + 1 === page}
-            className="px-4 py-2 aria-disabled:cursor-not-allowed rounded-full transition duration-300 ease-in-out
-            bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 
-            aria-selected:bg-blue-300 dark:aria-selected:bg-blue-700"
+            className="rounded-full bg-gray-200 px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 aria-disabled:cursor-not-allowed aria-selected:bg-blue-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:aria-selected:bg-blue-700"
             href={`?${new URLSearchParams({
               query,
               ...(facetIndex && { facetIndex: String(facetIndex) }),
@@ -58,6 +55,7 @@ export default function PaginationButtons({ pageCount }: Props) {
               ...(layout && { layout }),
               ...(i && { page: String(i + 1) }),
             })}`}
+            scroll={false}
           >
             {i + 1}
           </Link>
@@ -71,9 +69,8 @@ export default function PaginationButtons({ pageCount }: Props) {
           ...(nextPage !== 1 && { page: String(nextPage) }),
         })}`}
         aria-disabled={page >= pageCount}
-        className="px-4 py-2 aria-disabled:cursor-not-allowed rounded-full transition duration-300 ease-in-out
-          bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 
-          aria-disabled:bg-gray-300 dark:aria-disabled:bg-gray-700 aria-disabled:text-gray-500"
+        className="rounded-full bg-gray-200 px-4 py-2 transition duration-300 ease-in-out hover:bg-gray-300 aria-disabled:cursor-not-allowed aria-disabled:bg-gray-300 aria-disabled:text-gray-500 dark:bg-gray-800 dark:hover:bg-gray-700 dark:aria-disabled:bg-gray-700"
+        scroll={false}
       >
         {dict.다음[lang]}
       </Link>

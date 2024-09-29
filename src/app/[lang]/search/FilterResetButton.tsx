@@ -12,8 +12,9 @@ export default function FilterResetButton({ lang, searchParams }: Props) {
 
   return (
     <Link
-      className="md:text-lg inline-block w-full font-semibold text-center text-white dark:text-red-500 p-3 md:p-4 bg-opacity-80 hover:bg-opacity-90 bg-red-700 dark:bg-red-500 dark:bg-opacity-20 rounded-lg dark:hover:bg-opacity-40 transition duration-300 ease-in-out"
+      className="inline-block w-full rounded-lg bg-red-700 bg-opacity-80 p-3 text-center font-semibold text-white transition duration-300 ease-in-out hover:bg-opacity-90 md:p-4 md:text-lg dark:bg-red-500 dark:bg-opacity-20 dark:text-red-500 dark:hover:bg-opacity-40"
       href={`?${newSearchParams}`}
+      scroll={false}
     >
       {dict.초기화[lang]}
     </Link>

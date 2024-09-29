@@ -88,6 +88,7 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
                   query,
                   ...(facetFilters && { facetFilters }),
                 })}&facetIndex=${i}`}
+                scroll={false}
               >
                 {dict.facetKeys[facetKey as 'subject' | 'lecturer'][lang]}
               </Link>

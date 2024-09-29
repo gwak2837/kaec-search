@@ -25,6 +25,7 @@ export default function FacetFilterLink({
       aria-selected={facetFilters.includes(`"${facetKey}:${value}"`)}
       className={className}
       href={href}
+      scroll={false}
     >
       <span>{value}</span>
       <span className="whitespace-nowrap">

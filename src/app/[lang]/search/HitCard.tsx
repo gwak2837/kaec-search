@@ -27,24 +27,23 @@ export default function HitCard({ hit, layout }: Props) {
       : Array.isArray(hit.tag)
         ? hit.tag.join(', ')
         : hit.tag
-  const outlinkIcon =
-    hit.Coursera === 1 ? (
-      <Image
-        src="/images/coursera.svg"
-        alt="coursera"
-        width={1155}
-        height={164}
-        className="w-full max-w-28"
-      />
-    ) : (
-      <Image
-        src="/images/kmoocLogo.png"
-        alt="kmooc"
-        width={269}
-        height={49}
-        className="w-full max-w-28"
-      />
-    )
+  const outlinkIcon = hit.kmooc.includes('https://www.coursera.org') ? (
+    <Image
+      src="/images/coursera.svg"
+      alt="coursera"
+      width={1155}
+      height={164}
+      className="w-full max-w-28"
+    />
+  ) : (
+    <Image
+      src="/images/kmoocLogo.png"
+      alt="kmooc"
+      width={269}
+      height={49}
+      className="w-full max-w-28"
+    />
+  )
 
   return (
     <>
@@ -64,7 +63,7 @@ export default function HitCard({ hit, layout }: Props) {
           alt="courseoverviews-thumbnail"
           width="600"
           height="600"
-          className={'object-cover ' + (isListLayout ? 'h-full' : 'aspect-video')}
+          className={`object-cover ${isListLayout ? 'h-full' : 'aspect-video'}`}
         />
         {isListLayout ? (
           <div className="grid min-w-0 gap-2 p-2 xl:gap-4">

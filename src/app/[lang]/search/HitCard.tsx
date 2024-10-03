@@ -77,7 +77,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <a
-                href={hit.kmooc}
+                href={hit.kmooc ?? ''}
                 target="_blank"
                 className="flex items-center justify-center rounded-xl border border-gray-300 p-2 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -106,7 +106,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <a
-                href={hit.kmooc}
+                href={hit.kmooc ?? ''}
                 target="_blank"
                 className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -140,7 +140,7 @@ export default function HitCard({ hit, layout }: Props) {
               {dict.태그[lang]}: {tag}
             </div>
             <a
-              href={hit.kmooc}
+              href={hit.kmooc ?? ''}
               target="_blank"
               className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
               onClick={(e) => e.stopPropagation()}

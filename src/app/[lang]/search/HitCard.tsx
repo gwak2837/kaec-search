@@ -27,7 +27,7 @@ export default function HitCard({ hit, layout }: Props) {
       : Array.isArray(hit.tag)
         ? hit.tag.join(', ')
         : hit.tag
-  const outlinkIcon = hit.kmooc.includes('https://www.coursera.org') ? (
+  const outlinkIcon = hit.kmooc?.includes('https://www.coursera.org') ? (
     <Image
       src="/images/coursera.svg"
       alt="coursera"

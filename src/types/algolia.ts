@@ -20,7 +20,7 @@ export interface Hit {
   title: string
   content: string
   related: string
-  kmooc: string
+  kmooc: string | null
   thumbnail: string
   related_eng: string
   week_eng: string

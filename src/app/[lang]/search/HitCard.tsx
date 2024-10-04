@@ -18,6 +18,7 @@ export default function HitCard({ hit, layout }: Props) {
 
   const [isOpened, setIsOpened] = useState(false)
 
+  const thumbnail = hit.kmooc ?? '/images/default-thumnail.jpeg'
   const isListLayout = !layout || layout === 'list'
   const tag =
     lang === 'en'
@@ -27,7 +28,7 @@ export default function HitCard({ hit, layout }: Props) {
       : Array.isArray(hit.tag)
         ? hit.tag.join(', ')
         : hit.tag
-  const outlinkIcon = hit.kmooc?.includes('https://www.coursera.org') ? (
+  const outlinkIcon = thumbnail.includes('https://www.coursera.org') ? (
     <Image
       src="/images/coursera.svg"
       alt="coursera"
@@ -77,7 +78,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <a
-                href={hit.kmooc ?? ''}
+                href={thumbnail}
                 target="_blank"
                 className="flex items-center justify-center rounded-xl border border-gray-300 p-2 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -106,7 +107,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <a
-                href={hit.kmooc ?? ''}
+                href={thumbnail}
                 target="_blank"
                 className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -140,7 +141,7 @@ export default function HitCard({ hit, layout }: Props) {
               {dict.태그[lang]}: {tag}
             </div>
             <a
-              href={hit.kmooc ?? ''}
+              href={thumbnail}
               target="_blank"
               className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
               onClick={(e) => e.stopPropagation()}

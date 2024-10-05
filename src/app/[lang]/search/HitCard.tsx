@@ -17,8 +17,12 @@ export default function HitCard({ hit, layout }: Props) {
   const { lang } = useParams<PageProps['params']>()
 
   const [isOpened, setIsOpened] = useState(false)
+  const [isImageError, setIsImageError] = useState(false)
 
-  const thumbnail = hit.kmooc ?? '/images/default-thumnail.jpeg'
+  const fallbackThumnailURL = '/images/default-thumnail.jpeg'
+  const thumnailURL =
+    hit.thumbnail && hit.thumbnail !== 'null' ? hit.thumbnail : fallbackThumnailURL
+
   const isListLayout = !layout || layout === 'list'
   const tag =
     lang === 'en'
@@ -28,7 +32,9 @@ export default function HitCard({ hit, layout }: Props) {
       : Array.isArray(hit.tag)
         ? hit.tag.join(', ')
         : hit.tag
-  const outlinkIcon = thumbnail.includes('https://www.coursera.org') ? (
+
+  const lectureURL = hit.kmooc ?? ''
+  const outlinkIcon = lectureURL.includes('https://www.coursera.org') ? (
     <Image
       src="/images/coursera.svg"
       alt="coursera"
@@ -56,15 +62,12 @@ export default function HitCard({ hit, layout }: Props) {
         onClick={() => setIsOpened(true)}
       >
         <Image
-          src={
-            hit.thumbnail && hit.thumbnail !== 'null'
-              ? hit.thumbnail
-              : 'https://lms.kmooc.kr/pluginfile.php/2718931/course/overviewfiles_thumbnail/courseoverviews_thumbnail.png'
-          }
+          src={isImageError ? fallbackThumnailURL : thumnailURL}
           alt="courseoverviews-thumbnail"
           width="600"
           height="600"
-          className={`object-cover ${isListLayout ? 'h-full' : 'aspect-video'}`}
+          onError={() => setIsImageError(true)}
+          className={`aspect-video object-cover ${isListLayout ? 'h-full' : ''}`}
         />
         {isListLayout ? (
           <div className="grid min-w-0 gap-2 p-2 xl:gap-4">
@@ -78,7 +81,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <a
-                href={thumbnail}
+                href={lectureURL}
                 target="_blank"
                 className="flex items-center justify-center rounded-xl border border-gray-300 p-2 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -107,7 +110,7 @@ export default function HitCard({ hit, layout }: Props) {
             </div>
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <a
-                href={thumbnail}
+                href={lectureURL}
                 target="_blank"
                 className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
                 onClick={(e) => e.stopPropagation()}
@@ -141,7 +144,7 @@ export default function HitCard({ hit, layout }: Props) {
               {dict.태그[lang]}: {tag}
             </div>
             <a
-              href={thumbnail}
+              href={lectureURL}
               target="_blank"
               className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
               onClick={(e) => e.stopPropagation()}

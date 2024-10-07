@@ -53,6 +53,14 @@ export default function HitCard({ hit, layout }: Props) {
     />
   )
 
+  function handleOutlinkClick(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.stopPropagation()
+    if (!lectureURL) {
+      event.preventDefault()
+      toast.error('강의 링크가 없습니다.')
+    }
+  }
+
   return (
     <>
       <li
@@ -85,13 +93,7 @@ export default function HitCard({ hit, layout }: Props) {
                 href={lectureURL}
                 target="_blank"
                 className="flex items-center justify-center rounded-xl border border-gray-300 p-2 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (!lectureURL) {
-                    e.preventDefault()
-                    toast.error('강의 링크가 없습니다.')
-                  }
-                }}
+                onClick={handleOutlinkClick}
               >
                 {outlinkIcon}
               </a>
@@ -120,7 +122,7 @@ export default function HitCard({ hit, layout }: Props) {
                 href={lectureURL}
                 target="_blank"
                 className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
-                onClick={(e) => e.stopPropagation()}
+                onClick={handleOutlinkClick}
               >
                 {outlinkIcon}
               </a>
@@ -132,8 +134,8 @@ export default function HitCard({ hit, layout }: Props) {
       <Modal showCloseButton showDragButton open={isOpened} onClose={() => setIsOpened(false)}>
         <div className="grid max-h-svh gap-2 overflow-auto rounded-2xl bg-gray-100 pt-5 shadow-xl dark:border-2 dark:border-gray-600 dark:bg-gray-900">
           <Image
-            src="https://lms.kmooc.kr/pluginfile.php/2718931/course/overviewfiles_thumbnail/courseoverviews_thumbnail.png"
-            alt="courseoverviews_thumbnail"
+            src={isImageError ? fallbackThumnailURL : thumnailURL}
+            alt="courseoverviews-thumbnail"
             width="700"
             height="700"
             className="aspect-video w-full object-cover"
@@ -154,7 +156,7 @@ export default function HitCard({ hit, layout }: Props) {
               href={lectureURL}
               target="_blank"
               className="flex items-center justify-center rounded-lg border border-gray-300 px-4 py-3 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
-              onClick={(e) => e.stopPropagation()}
+              onClick={handleOutlinkClick}
             >
               {outlinkIcon}
             </a>

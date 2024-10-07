@@ -11,10 +11,7 @@ export default async function SearchLayout({ params, children }: LayoutProps) {
   return (
     <div>
       <div className="relative">
-        <h1
-          className="absolute w-full text-center text-shadow-white-lg dark:text-shadow-black-lg tracking-wide bottom-4 font-semibold p-4 
-            text-2xl sm:text-4xl md:text-5xl"
-        >
+        <h1 className="text-shadow-white-lg dark:text-shadow-black-lg absolute bottom-4 w-full p-4 text-center text-2xl font-semibold tracking-wide sm:text-4xl md:text-5xl">
           {dict['K-학술확산센터 강좌 검색창'][lang]}
         </h1>
         <Image
@@ -22,12 +19,14 @@ export default async function SearchLayout({ params, children }: LayoutProps) {
           width="1792"
           height="1024"
           alt="background"
-          className="object-cover h-[25svh] w-full"
+          className="h-[25svh] w-full object-cover"
           priority
         />
       </div>
-      <div className="grid grid-cols-[auto_1fr] gap-4 p-4 md:p-6 items-center sticky top-0 border-b-2 md:border-0 mb-4 md:m-0 border-gray-200 dark:border-gray-800 backdrop-blur md:backdrop-blur-none z-20 md:relative">
-        <Link href={`/${lang}`}>{dict.처음으로[lang]}</Link>
+      <div className="sticky top-0 z-20 mb-4 grid grid-cols-[auto_1fr] items-center gap-4 border-b-2 border-gray-200 p-4 backdrop-blur md:relative md:m-0 md:border-0 md:p-6 md:backdrop-blur-none dark:border-gray-800">
+        <Link className="text-shadow-white-lg dark:text-shadow-black-lg" href={`/${lang}`}>
+          {dict.처음으로[lang]}
+        </Link>
         <Suspense>
           <SearchForm />
         </Suspense>

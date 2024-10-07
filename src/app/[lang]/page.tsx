@@ -15,9 +15,9 @@ export type PageProps = {
 export default function HomePage({ params: { lang } }: PageProps) {
   return (
     <main className="min-h-screen">
-      <div className="relative min-h-svh flex justify-center items-center">
-        <div className="grid relative z-10 p-4 justify-center">
-          <h1 className="font-semibold text-center p-4 text-xl sm:text-4xl lg:text-6xl text-shadow-white-lg dark:text-shadow-black-lg">
+      <div className="relative flex min-h-svh items-center justify-center">
+        <div className="relative z-10 grid justify-center p-4">
+          <h1 className="text-shadow-white-lg dark:text-shadow-black-lg p-4 text-center text-xl font-semibold sm:text-4xl lg:text-6xl">
             {dict['K-학술확산센터 강좌 검색창'][lang]}
           </h1>
           <Suspense>
@@ -30,19 +30,19 @@ export default function HomePage({ params: { lang } }: PageProps) {
           height="1024"
           alt="background"
           priority
-          className="absolute inset-0 object-cover h-full w-full z-0"
+          className="absolute inset-0 z-0 h-full w-full object-cover"
         />
       </div>
       <div className="mx-auto max-w-screen-xl">
-        <h2 className="font-bold text-4xl mx-4 my-8 md:text-5xl">{dict.강좌소개[lang]}</h2>
-        <h3 className="font-bold text-2xl mx-4 my-8 md:text-4xl">
+        <h2 className="mx-4 my-8 text-4xl font-bold md:text-5xl">{dict.강좌소개[lang]}</h2>
+        <h3 className="mx-4 my-8 text-2xl font-bold md:text-4xl">
           {dict['살아있는 전통으로서'][lang]}
         </h3>
         <div className="m-4 text-lg md:text-xl">
           <p>{dict['1. K-MOOC을 위한'][lang]}</p>
           <p>{dict['2. Coursera를 위한'][lang]}</p>
         </div>
-        <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(202px,1fr))] px-4">
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(202px,1fr))] gap-2 px-4">
           {courses.map((course, i) => (
             <CourseCard key={course.roman} course={course} lang={lang} isReversed={i > 4} />
           ))}

@@ -224,5 +224,13 @@ const dict = {
       ko: '교수자',
       en: 'lecturer',
     },
+    subject_eng: {
+      ko: '대주제',
+      en: 'subject',
+    },
+    lecturer_eng: {
+      ko: '교수자',
+      en: 'lecturer',
+    },
   },
 } as const

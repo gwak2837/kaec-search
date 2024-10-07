@@ -103,4 +103,6 @@ export interface Tag {
 export interface Facets {
   week: Record<string, number>
   subject: Record<string, number>
+  week_eng?: Record<string, number>
+  subject_eng?: Record<string, number>
 }

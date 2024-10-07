@@ -91,4 +91,12 @@ button:disabled {
       2px -1px 0 #000,
       -2px -1px 0 #000;
   }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .px-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }

@@ -7,6 +7,7 @@ import { Hit } from '@/types/algolia'
 import RelatedCoursesButton from './RelatedCoursesButton'
 import { useParams } from 'next/navigation'
 import { PageProps } from '../page'
+import toast from 'react-hot-toast'
 
 type Props = {
   hit: Hit
@@ -84,7 +85,13 @@ export default function HitCard({ hit, layout }: Props) {
                 href={lectureURL}
                 target="_blank"
                 className="flex items-center justify-center rounded-xl border border-gray-300 p-2 transition-colors hover:bg-gray-200 dark:border-gray-500 dark:hover:bg-gray-800"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (!lectureURL) {
+                    e.preventDefault()
+                    toast.error('강의 링크가 없습니다.')
+                  }
+                }}
               >
                 {outlinkIcon}
               </a>

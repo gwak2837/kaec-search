@@ -26,7 +26,7 @@ export default function PaginationButtons({ pageCount }: Props) {
   const maxButtonCount = Math.min(pageCount, 999)
 
   return (
-    <div className="flex items-center justify-center gap-2 whitespace-nowrap px-4">
+    <div className="flex min-w-0 items-center gap-2 whitespace-nowrap p-2">
       <Link
         href={`?${new URLSearchParams({
           query,
@@ -74,6 +74,7 @@ export default function PaginationButtons({ pageCount }: Props) {
       >
         {dict.다음[lang]}
       </Link>
+      <div className="invisible">.</div>
     </div>
   )
 }

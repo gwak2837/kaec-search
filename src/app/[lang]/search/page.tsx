@@ -200,8 +200,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
       </div>
       {pageCount > 1 && (
         <>
-          <div className="h-20 md:hidden" />
-          <nav className="fixed bottom-0 w-full overflow-x-auto border-t-2 border-gray-200 p-3 backdrop-blur md:static md:border-none md:backdrop-blur-none dark:border-gray-800">
+          <div className="h-16" />
+          <nav className="pb-safe px-safe fixed bottom-0 flex w-full justify-center overflow-x-auto border-t-2 border-gray-200 backdrop-blur dark:border-gray-800">
             <PaginationButtons pageCount={pageCount} />
           </nav>
         </>

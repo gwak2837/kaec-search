@@ -7,23 +7,23 @@ import FilterResetButton from './FilterResetButton'
 import HitCard from './HitCard'
 import ResultLayoutButtons from './ResultLayoutButtons'
 import PaginationButtons from './PaginationButtons'
-import { notFound } from 'next/navigation'
 import { algoliaClient } from '@/common/algoria'
-import { Fragment } from 'react'
 import NotFound from './not-found'
 import FacetFilterLink from './FacetFilterLink'
+import { Locale } from '@/middleware'
 
 type Params = {
   facetFilters?: string
   page: number
+  lang: Locale
   query: string
 }
 
-async function fetchSearchResults({ query, page, facetFilters }: Params) {
+async function fetchSearchResults({ lang, query, page, facetFilters }: Params) {
   const base = {
     indexName: 'lecturedataIndex',
     query,
-    facets: ALGOLIA_FACETS,
+    facets: ALGOLIA_FACETS[lang],
   }
 
   return (await algoliaClient.search({
@@ -52,7 +52,8 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
     : (searchParams.facetFilters ?? '')
   const page = +((searchParams.page as string) ?? 1)
 
-  const searchResults = await fetchSearchResults({ query, facetFilters, page })
+  const lang = params.lang
+  const searchResults = await fetchSearchResults({ lang, query, facetFilters, page })
 
   const searchResult = searchResults.results[searchResults.results.length - 1]
   const hits = searchResult.hits
@@ -68,7 +69,6 @@ export default async function SearchResult({ params, searchParams }: PageProps) 
   const pageCount = searchResult.nbPages
   const totalHits = searchResult.nbHits
 
-  const lang = params.lang
   const layout = searchParams.layout as 'grid' | 'list'
   const isListLayout = !layout || layout === 'list'
 

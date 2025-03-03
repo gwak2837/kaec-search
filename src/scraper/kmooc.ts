@@ -11,7 +11,7 @@ async function getCoverImageURLFromKMOOC(url: string) {
   return imageUrl
 }
 
-const workbook = xlsx.readFile('./src/scraper/content.xlsx')
+const workbook = xlsx.readFile('./src/scraper/content2.xlsx')
 const sheetName = workbook.SheetNames[0]
 const sheet = workbook.Sheets[sheetName]
 const data = xlsx.utils.sheet_to_json(sheet)
